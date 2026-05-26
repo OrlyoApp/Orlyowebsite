@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orlyo — Growth, guided.</title>
+  <meta name="description" content="Orlyo connects ambitious professionals with expert mentors, guided by AI. Find your mentor, close your skill gaps, and accelerate your career." />
+  <meta property="og:title" content="Orlyo — Growth, guided." />
+  <meta property="og:description" content="AI-powered mentorship for ambitious professionals." />
+  <meta property="og:url" content="https://orlyo.app" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #97FF97;
+      --green-mid: #5BC87A;
+      --navy: #1B2833;
+      --grey: #7F8C8D;
+      --light: #F5F6FA;
+      --purple: #4C03FF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fff;
+      color: var(--navy);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--navy); }
+
+    .nav-cta {
+      background: var(--navy) !important;
+      color: #fff !important;
+      padding: 10px 24px;
+      border-radius: 99px;
+      font-weight: 500 !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85 !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+      background: var(--green);
+    }
+
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.5;
+    }
+
+    .hero-blob-1 {
+      width: 600px; height: 600px;
+      background: #5BC87A;
+      top: -200px; left: -200px;
+    }
+
+    .hero-blob-2 {
+      width: 400px; height: 400px;
+      background: #3DA85E;
+      bottom: -100px; right: -100px;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(27,40,51,0.1);
+      border: 1px solid rgba(27,40,51,0.15);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--navy);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(56px, 8vw, 96px);
+      line-height: 1.0;
+      color: var(--navy);
+      margin-bottom: 24px;
+      letter-spacing: -2px;
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      font-weight: 300;
+      color: rgba(27,40,51,0.7);
+      line-height: 1.6;
+      max-width: 560px;
+      margin: 0 auto 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      padding: 16px 36px;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 2px solid rgba(27,40,51,0.3);
+      transition: transform 0.2s, border-color 0.2s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover { transform: translateY(-2px); border-color: var(--navy); }
+
+    /* WHITE CARD SECTION */
+    .card-section {
+      background: #fff;
+      border-radius: 40px 40px 0 0;
+      margin-top: -40px;
+      position: relative;
+      z-index: 3;
+      padding: 80px 40px;
+    }
+
+    /* FEATURES */
+    .features {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--light);
+      border-radius: 24px;
+      padding: 36px;
+      transition: transform 0.2s;
+    }
+
+    .feature-card:hover { transform: translateY(-4px); }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+
+    /* ORLA SECTION */
+    .orla-section {
+      max-width: 1100px;
+      margin: 80px auto 0;
+      background: var(--navy);
+      border-radius: 32px;
+      padding: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .orla-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(151,255,151,0.15);
+      border: 1px solid rgba(151,255,151,0.3);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 24px;
+    }
+
+    .orla-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 48px);
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .orla-section p {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .orla-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .orla-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .orla-feature-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      flex-shrink: 0;
+    }
+
+    .orla-visual {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+    }
+
+    .orla-circle {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4C03FF, #5BC87A, #97FF97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(76,3,255,0.4);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(76,3,255,0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(76,3,255,0.6); }
+    }
+
+    .orla-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .orla-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+    }
+
+    /* HOW IT WORKS */
+    .how-section {
+      max-width: 1100px;
+      margin: 80px auto 0;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .step {
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .step-number {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--navy);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .step h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      font-size: 15px;
+      color: var(--grey);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      max-width: 1100px;
+      margin: 80px auto 0;
+      background: var(--green);
+      border-radius: 32px;
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 56px);
+      color: var(--navy);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(27,40,51,0.7);
+      margin-bottom: 40px;
+    }
+
+    .app-badges {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .app-badge {
+      background: var(--navy);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 14px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .app-badge:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .app-badge-sub {
+      font-size: 11px;
+      font-weight: 300;
+      opacity: 0.7;
+      display: block;
+    }
+
+    /* FOOTER */
+    footer {
+      max-width: 1100px;
+      margin: 80px auto 0;
+      padding: 40px 40px 60px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+      gap: 24px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--navy); }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--grey);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .card-section { padding: 60px 20px; }
+      .orla-section { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+      .steps { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .hero { padding: 100px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">orlyo</a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#orla">Orla AI</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="#download" class="nav-cta">Download</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        AI-powered mentorship
+      </div>
+      <h1>Growth,<br /><em>guided.</em></h1>
+      <p class="hero-sub">Connect with expert mentors, close your skill gaps, and accelerate your career — with Orla, your personal AI career companion.</p>
+      <div class="hero-actions">
+        <a href="#download" class="btn-primary">Find a Mentor</a>
+        <a href="#features" class="btn-outline">Learn more</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHITE CARD -->
+  <div class="card-section">
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+      <p class="section-label">Why Orlyo</p>
+      <h2 class="section-title">Everything you need to<br />reach your next role</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#E8F8EE;">📊</div>
+          <h3>Know your gaps</h3>
+          <p>Your personal gap analysis shows your readiness score and the exact skills you need for your target role — updated after every session.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#F0EEFF;">🎯</div>
+          <h3>Match with the right mentor</h3>
+          <p>AI matches you with vetted professionals who have walked your exact career path — compatible by expertise, timezone and goals.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#FFF9E6;">🎤</div>
+          <h3>Practice until you're ready</h3>
+          <p>AI-powered mock interviews tailored to specific roles with detailed personalised feedback on your answers, delivery and confidence.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#E8F8EE;">📡</div>
+          <h3>Real-time career signals</h3>
+          <p>Orla monitors your target companies and sector so you never miss an opportunity — hiring freezes, funding rounds and market shifts.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#F0EEFF;">🗺️</div>
+          <h3>Your path, mapped out</h3>
+          <p>A personalised 6–24 month career roadmap showing exactly how to reach your target role, with milestones and mentor guidance at every step.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#FFF9E6;">✍️</div>
+          <h3>Apply with confidence</h3>
+          <p>AI cover letters tailored to each role using your profile, experience and the job description — ready in seconds.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORLA -->
+    <section id="orla">
+      <div class="orla-section">
+        <div>
+          <div class="orla-tag">✦ Meet Orla</div>
+          <h2>Your AI career companion</h2>
+          <p>Orla isn't just a chatbot. She knows your career history, tracks your progress, monitors the market and proactively guides you — 24 hours a day.</p>
+          <div class="orla-features">
+            <div class="orla-feature"><span class="orla-feature-dot"></span>Personalised coaching available anytime</div>
+            <div class="orla-feature"><span class="orla-feature-dot"></span>Proactive nudges based on your goals</div>
+            <div class="orla-feature"><span class="orla-feature-dot"></span>Learns from every session and interaction</div>
+            <div class="orla-feature"><span class="orla-feature-dot"></span>Connects all your career data intelligently</div>
+          </div>
+        </div>
+        <div class="orla-visual">
+          <div class="orla-circle">o</div>
+          <div class="orla-name">Orla</div>
+          <div class="orla-desc">Your AI career companion</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section" id="how">
+      <p class="section-label">How it works</p>
+      <h2 class="section-title">From sign up to<br />your next role</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Build your profile</h3>
+          <p>Describe yourself in plain English. Orla extracts your experience, skills and goals automatically — no forms, no friction.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Match with a mentor</h3>
+          <p>Swipe through AI-matched mentor profiles. When they accept your request, you're connected and ready to start.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Grow with guidance</h3>
+          <p>Book sessions, track goals, practice interviews and let Orla guide you every step of the way to your target role.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="download">
+      <h2>Ready to accelerate<br />your career?</h2>
+      <p>Join thousands of professionals growing with Orlyo.</p>
+      <div class="app-badges">
+        <a href="#" class="app-badge">
+          <svg width="20" height="24" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <div>
+            <span class="app-badge-sub">Download on the</span>
+            App Store
+          </div>
+        </a>
+        <a href="#" class="app-badge">
+          <svg width="20" height="22" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.35.19.75.25 1.15.17l12.18-12.18L13.36 8.6 3.18 23.76zm17.31-10.41l-3.06-1.75-3.38 3.38 3.38 3.38 3.07-1.76c.87-.5.87-1.75-.01-2.25zM2.14 1.13C2.05 1.37 2 1.64 2 1.94v20.12c0 .3.05.57.14.81l.1.1 11.26-11.26v-.27L2.24 1.03l-.1.1zm11.22 11.55l3.25-3.25-3.25-3.25L2.14 1.13"/></svg>
+          <div>
+            <span class="app-badge-sub">Get it on</span>
+            Google Play
+          </div>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/" class="footer-logo">orlyo</a>
+    <ul class="footer-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#orla">Orla AI</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="mailto:hello@orlyo.app">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Orlyo Ltd. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
