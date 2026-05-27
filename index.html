@@ -4,582 +4,349 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orlyo — Growth, guided.</title>
-  <meta name="description" content="Orlyo connects ambitious professionals with expert mentors, guided by AI. Find your mentor, close your skill gaps, and accelerate your career." />
-  <meta property="og:title" content="Orlyo — Growth, guided." />
-  <meta property="og:description" content="AI-powered mentorship for ambitious professionals." />
-  <meta property="og:url" content="https://orlyo.app" />
+  <meta name="description" content="Orlyo connects ambitious professionals with expert mentors, guided by AI. Apply to become a founding mentor or join the waitlist for early access." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --green: #97FF97;
-      --green-mid: #5BC87A;
-      --navy: #1B2833;
-      --grey: #7F8C8D;
-      --light: #F5F6FA;
-      --purple: #4C03FF;
-    }
-
+    :root { --green: #97FF97; --green-mid: #5BC87A; --navy: #1B2833; --grey: #7F8C8D; --light: #F5F6FA; --purple: #4C03FF; }
     html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #fff; color: var(--navy); overflow-x: hidden; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #fff;
-      color: var(--navy);
-      overflow-x: hidden;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 40px;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-    }
-
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: 28px;
-      color: var(--navy);
-      text-decoration: none;
-      letter-spacing: -0.5px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--grey);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 28px; color: var(--navy); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 15px; font-weight: 400; color: var(--grey); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--navy); }
-
-    .nav-cta {
-      background: var(--navy) !important;
-      color: #fff !important;
-      padding: 10px 24px;
-      border-radius: 99px;
-      font-weight: 500 !important;
-      transition: opacity 0.2s !important;
-    }
-
+    .nav-cta { background: var(--navy) !important; color: #fff !important; padding: 10px 24px; border-radius: 99px; font-weight: 500 !important; transition: opacity 0.2s !important; }
     .nav-cta:hover { opacity: 0.85 !important; }
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
-      background: var(--green);
-    }
-
-    .hero-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.5;
-    }
-
-    .hero-blob-1 {
-      width: 600px; height: 600px;
-      background: #5BC87A;
-      top: -200px; left: -200px;
-    }
-
-    .hero-blob-2 {
-      width: 400px; height: 400px;
-      background: #3DA85E;
-      bottom: -100px; right: -100px;
-    }
-
+    .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; background: var(--green); }
+    .hero-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; }
+    .hero-blob-1 { width: 600px; height: 600px; background: #5BC87A; top: -200px; left: -200px; }
+    .hero-blob-2 { width: 400px; height: 400px; background: #3DA85E; bottom: -100px; right: -100px; }
     .hero-content { position: relative; z-index: 2; max-width: 800px; }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(27,40,51,0.1);
-      border: 1px solid rgba(27,40,51,0.15);
-      border-radius: 99px;
-      padding: 6px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--navy);
-      margin-bottom: 32px;
-    }
-
-    .hero-badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--navy);
-    }
-
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: clamp(56px, 8vw, 96px);
-      line-height: 1.0;
-      color: var(--navy);
-      margin-bottom: 24px;
-      letter-spacing: -2px;
-    }
-
-    h1 em {
-      font-style: italic;
-      font-weight: 400;
-    }
-
-    .hero-sub {
-      font-size: clamp(16px, 2.5vw, 20px);
-      font-weight: 300;
-      color: rgba(27,40,51,0.7);
-      line-height: 1.6;
-      max-width: 560px;
-      margin: 0 auto 48px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: var(--navy);
-      color: #fff;
-      padding: 16px 36px;
-      border-radius: 99px;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: transform 0.2s, opacity 0.2s;
-      display: inline-block;
-    }
-
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(27,40,51,0.1); border: 1px solid rgba(27,40,51,0.15); border-radius: 99px; padding: 6px 16px; font-size: 13px; font-weight: 500; color: var(--navy); margin-bottom: 32px; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--navy); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    h1 { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: clamp(52px, 8vw, 92px); line-height: 1.0; color: var(--navy); margin-bottom: 24px; letter-spacing: -2px; }
+    h1 em { font-style: italic; font-weight: 400; }
+    .hero-sub { font-size: clamp(16px, 2.5vw, 20px); font-weight: 300; color: rgba(27,40,51,0.7); line-height: 1.6; max-width: 560px; margin: 0 auto 48px; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--navy); color: #fff; padding: 16px 36px; border-radius: 99px; font-size: 16px; font-weight: 500; text-decoration: none; transition: transform 0.2s, opacity 0.2s; display: inline-block; }
     .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--navy);
-      padding: 16px 36px;
-      border-radius: 99px;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      border: 2px solid rgba(27,40,51,0.3);
-      transition: transform 0.2s, border-color 0.2s;
-      display: inline-block;
-    }
-
+    .btn-outline { background: transparent; color: var(--navy); padding: 16px 36px; border-radius: 99px; font-size: 16px; font-weight: 500; text-decoration: none; border: 2px solid rgba(27,40,51,0.3); transition: transform 0.2s, border-color 0.2s; display: inline-block; }
     .btn-outline:hover { transform: translateY(-2px); border-color: var(--navy); }
 
-    /* WHITE CARD SECTION */
-    .card-section {
-      background: #fff;
-      border-radius: 40px 40px 0 0;
-      margin-top: -40px;
-      position: relative;
-      z-index: 3;
-      padding: 80px 40px;
-    }
+    .card-section { background: #fff; border-radius: 40px 40px 0 0; margin-top: -40px; position: relative; z-index: 3; padding: 80px 40px; }
+
+    .section-label { font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--grey); margin-bottom: 16px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: clamp(36px, 5vw, 56px); line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px; }
+    .section-sub { font-size: 17px; font-weight: 300; color: var(--grey); line-height: 1.7; max-width: 600px; margin-bottom: 56px; }
+
+    /* REGISTRATION SPLIT */
+    .reg-section { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .reg-card { border-radius: 28px; padding: 48px; }
+    .reg-card-mentor { background: var(--navy); }
+    .reg-card-mentee { background: var(--light); border: 2px solid rgba(0,0,0,0.06); }
+
+    .reg-badge { display: inline-flex; align-items: center; gap: 8px; border-radius: 99px; padding: 5px 14px; font-size: 12px; font-weight: 500; margin-bottom: 20px; }
+    .reg-badge-mentor { background: rgba(151,255,151,0.15); border: 1px solid rgba(151,255,151,0.3); color: var(--green); }
+    .reg-badge-mentee { background: rgba(91,200,122,0.12); border: 1px solid rgba(91,200,122,0.2); color: var(--green-mid); }
+
+    .reg-card h2 { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 32px; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .reg-card-mentor h2 { color: #fff; }
+    .reg-card-mentee h2 { color: var(--navy); }
+    .reg-card p { font-size: 15px; font-weight: 300; line-height: 1.6; margin-bottom: 28px; }
+    .reg-card-mentor p { color: rgba(255,255,255,0.65); }
+    .reg-card-mentee p { color: var(--grey); }
+
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+    .reg-card-mentor .form-label { color: rgba(255,255,255,0.5); }
+    .reg-card-mentee .form-label { color: var(--grey); }
+
+    .form-input { width: 100%; padding: 13px 16px; border-radius: 12px; font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
+    .form-input-mentor { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+    .form-input-mentor::placeholder { color: rgba(255,255,255,0.3); }
+    .form-input-mentor:focus { border-color: var(--green); }
+    .form-input-mentee { background: #fff; border: 1.5px solid rgba(0,0,0,0.12); color: var(--navy); }
+    .form-input-mentee::placeholder { color: rgba(27,40,51,0.3); }
+    .form-input-mentee:focus { border-color: var(--green-mid); }
+
+    select.form-input { appearance: none; cursor: pointer; }
+    textarea.form-input { resize: vertical; min-height: 90px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .submit-btn { width: 100%; padding: 16px; border-radius: 99px; font-size: 16px; font-weight: 500; font-family: 'DM Sans', sans-serif; border: none; cursor: pointer; margin-top: 8px; transition: transform 0.2s, opacity 0.2s; }
+    .submit-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+    .submit-btn-mentor { background: var(--green); color: var(--navy); }
+    .submit-btn-mentee { background: var(--navy); color: #fff; }
+
+    .form-success { display: none; text-align: center; padding: 32px 0; }
+    .form-success-icon { font-size: 48px; margin-bottom: 16px; }
+    .form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .form-success-mentor h3 { color: #fff; }
+    .form-success-mentee h3 { color: var(--navy); }
+    .form-success p { font-size: 15px; font-weight: 300; }
+    .form-success-mentor p { color: rgba(255,255,255,0.65); }
+    .form-success-mentee p { color: var(--grey); }
 
     /* FEATURES */
-    .features {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--grey);
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: clamp(36px, 5vw, 56px);
-      line-height: 1.1;
-      letter-spacing: -1px;
-      margin-bottom: 64px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
-
-    .feature-card {
-      background: var(--light);
-      border-radius: 24px;
-      padding: 36px;
-      transition: transform 0.2s;
-    }
-
+    .features { max-width: 1100px; margin: 80px auto 0; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 0; }
+    .feature-card { background: var(--light); border-radius: 24px; padding: 36px; transition: transform 0.2s; }
     .feature-card:hover { transform: translateY(-4px); }
+    .feature-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+    .feature-card h3 { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 24px; margin-bottom: 10px; }
+    .feature-card p { font-size: 15px; font-weight: 300; color: var(--grey); line-height: 1.6; }
 
-    .feature-icon {
-      width: 52px; height: 52px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
+    /* ORLA */
+    .orla-section { max-width: 1100px; margin: 80px auto 0; background: var(--navy); border-radius: 32px; padding: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .orla-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(151,255,151,0.15); border: 1px solid rgba(151,255,151,0.3); border-radius: 99px; padding: 6px 14px; font-size: 13px; font-weight: 500; color: var(--green); margin-bottom: 24px; }
+    .orla-section h2 { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: clamp(32px, 4vw, 48px); color: #fff; line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; }
+    .orla-section > div > p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 32px; }
+    .orla-features { display: flex; flex-direction: column; gap: 14px; }
+    .orla-feature { display: flex; align-items: center; gap: 12px; font-size: 15px; color: rgba(255,255,255,0.85); }
+    .orla-feature-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-mid); flex-shrink: 0; }
+    .orla-visual { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; }
+    .orla-circle { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #4C03FF, #5BC87A, #97FF97); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 20px; box-shadow: 0 0 40px rgba(76,3,255,0.4); animation: pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(76,3,255,0.4); } 50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(76,3,255,0.6); } }
+    .orla-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .orla-desc { font-size: 14px; color: rgba(255,255,255,0.5); text-align: center; }
 
-    .feature-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: 24px;
-      margin-bottom: 10px;
-      letter-spacing: -0.3px;
-    }
+    /* HOW */
+    .how-section { max-width: 1100px; margin: 80px auto 0; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+    .step { text-align: center; padding: 32px 20px; }
+    .step-number { width: 48px; height: 48px; border-radius: 50%; background: var(--green); color: var(--navy); font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .step h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+    .step p { font-size: 15px; color: var(--grey); line-height: 1.6; font-weight: 300; }
 
-    .feature-card p {
-      font-size: 15px;
-      font-weight: 300;
-      color: var(--grey);
-      line-height: 1.6;
-    }
+    /* ABOUT */
+    .about-section { max-width: 1100px; margin: 80px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-section h2 { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: clamp(32px, 4vw, 48px); letter-spacing: -1px; margin-bottom: 20px; }
+    .about-section > div > p { font-size: 16px; font-weight: 300; color: var(--grey); line-height: 1.8; margin-bottom: 16px; }
+    .about-visual { background: var(--navy); border-radius: 32px; padding: 40px; display: flex; flex-direction: column; gap: 16px; }
+    .about-stat { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px 24px; }
+    .about-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: var(--green); line-height: 1; }
+    .about-stat-label { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 300; margin-top: 4px; }
 
-    /* ORLA SECTION */
-    .orla-section {
-      max-width: 1100px;
-      margin: 80px auto 0;
-      background: var(--navy);
-      border-radius: 32px;
-      padding: 64px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
+    /* TESTIMONIALS */
+    .testimonials { max-width: 1100px; margin: 80px auto 0; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+    .testimonial-card { background: var(--light); border-radius: 24px; padding: 32px; }
+    .testimonial-text { font-size: 16px; font-weight: 300; line-height: 1.7; color: var(--navy); margin-bottom: 24px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .testimonial-name { font-size: 15px; font-weight: 500; color: var(--navy); }
+    .testimonial-role { font-size: 13px; color: var(--grey); font-weight: 300; }
 
-    .orla-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(151,255,151,0.15);
-      border: 1px solid rgba(151,255,151,0.3);
-      border-radius: 99px;
-      padding: 6px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--green);
-      margin-bottom: 24px;
-    }
-
-    .orla-section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: clamp(32px, 4vw, 48px);
-      color: #fff;
-      line-height: 1.1;
-      letter-spacing: -1px;
-      margin-bottom: 20px;
-    }
-
-    .orla-section p {
-      font-size: 16px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.65);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .orla-features {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .orla-feature {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 15px;
-      color: rgba(255,255,255,0.85);
-    }
-
-    .orla-feature-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--green-mid);
-      flex-shrink: 0;
-    }
-
-    .orla-visual {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 24px;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 300px;
-    }
-
-    .orla-circle {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #4C03FF, #5BC87A, #97FF97);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 48px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 20px;
-      box-shadow: 0 0 40px rgba(76,3,255,0.4);
-      animation: pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(76,3,255,0.4); }
-      50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(76,3,255,0.6); }
-    }
-
-    .orla-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .orla-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.5);
-      text-align: center;
-    }
-
-    /* HOW IT WORKS */
-    .how-section {
-      max-width: 1100px;
-      margin: 80px auto 0;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 48px;
-    }
-
-    .step {
-      text-align: center;
-      padding: 40px 24px;
-    }
-
-    .step-number {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: var(--green);
-      color: var(--navy);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-    }
-
-    .step h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .step p {
-      font-size: 15px;
-      color: var(--grey);
-      line-height: 1.6;
-      font-weight: 300;
-    }
-
-    /* CTA SECTION */
-    .cta-section {
-      max-width: 1100px;
-      margin: 80px auto 0;
-      background: var(--green);
-      border-radius: 32px;
-      padding: 80px 40px;
-      text-align: center;
-    }
-
-    .cta-section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: clamp(36px, 5vw, 56px);
-      color: var(--navy);
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
-
-    .cta-section p {
-      font-size: 18px;
-      font-weight: 300;
-      color: rgba(27,40,51,0.7);
-      margin-bottom: 40px;
-    }
-
-    .app-badges {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .app-badge {
-      background: var(--navy);
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 14px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: transform 0.2s, opacity 0.2s;
-    }
-
-    .app-badge:hover { transform: translateY(-2px); opacity: 0.9; }
-
-    .app-badge-sub {
-      font-size: 11px;
-      font-weight: 300;
-      opacity: 0.7;
-      display: block;
-    }
-
-    /* FOOTER */
-    footer {
-      max-width: 1100px;
-      margin: 80px auto 0;
-      padding: 40px 40px 60px;
-      border-top: 1px solid rgba(0,0,0,0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: gap;
-      gap: 24px;
-    }
-
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: 24px;
-      color: var(--navy);
-      text-decoration: none;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      font-size: 14px;
-      color: var(--grey);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
+    footer { max-width: 1100px; margin: 80px auto 0; padding: 40px 40px 60px; border-top: 1px solid rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 24px; color: var(--navy); text-decoration: none; }
+    .footer-links { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: 14px; color: var(--grey); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--navy); }
+    .footer-copy { font-size: 13px; color: var(--grey); }
 
-    .footer-copy {
-      font-size: 13px;
-      color: var(--grey);
+    @media (max-width: 900px) {
+      .reg-section { grid-template-columns: 1fr; }
+      .orla-section { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+      .steps { grid-template-columns: 1fr; }
+      .about-section { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
     }
-
-    /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
       .card-section { padding: 60px 20px; }
-      .orla-section { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
-      .steps { grid-template-columns: 1fr; }
-      footer { flex-direction: column; text-align: center; }
       .hero { padding: 100px 20px 60px; }
+      .reg-card { padding: 32px 24px; }
+      footer { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <a href="/" class="nav-logo">orlyo</a>
     <ul class="nav-links">
+      <li><a href="#register">Join beta</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#orla">Orla AI</a></li>
-      <li><a href="#how">How it works</a></li>
+      <li><a href="#about">About</a></li>
       <li><a href="privacy.html">Privacy</a></li>
-      <li><a href="#download" class="nav-cta">Download</a></li>
+      <li><a href="#register" class="nav-cta">Apply as mentor</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-blob hero-blob-1"></div>
     <div class="hero-blob hero-blob-2"></div>
     <div class="hero-content">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        AI-powered mentorship
-      </div>
+      <div class="hero-badge"><span class="hero-badge-dot"></span>Now recruiting founding mentors — beta launching soon</div>
       <h1>Growth,<br /><em>guided.</em></h1>
-      <p class="hero-sub">Connect with expert mentors, close your skill gaps, and accelerate your career — with Orla, your personal AI career companion.</p>
+      <p class="hero-sub">Orlyo connects ambitious professionals with expert mentors, powered by AI. We're building something new — and we want you involved from day one.</p>
       <div class="hero-actions">
-        <a href="#download" class="btn-primary">Find a Mentor</a>
-        <a href="#features" class="btn-outline">Learn more</a>
+        <a href="#register" class="btn-primary">Apply as a mentor</a>
+        <a href="#register" class="btn-outline">Join the waitlist</a>
       </div>
     </div>
   </section>
 
-  <!-- WHITE CARD -->
   <div class="card-section">
+
+    <!-- REGISTRATION -->
+    <section id="register">
+      <div style="max-width:1100px; margin: 0 auto 56px;">
+        <p class="section-label">Beta access</p>
+        <h2 class="section-title">Be part of Orlyo from the start</h2>
+        <p class="section-sub">We're opening beta access to a small group of mentors and mentees ahead of our full launch. Apply below to secure your place.</p>
+      </div>
+      <div class="reg-section">
+
+        <!-- MENTOR FORM -->
+        <div class="reg-card reg-card-mentor">
+          <div class="reg-badge reg-badge-mentor">✦ Founding mentor</div>
+          <h2>Become a mentor</h2>
+          <p>Share your expertise, guide the next generation of professionals, and earn from every session. Founding mentors get priority placement and a reduced platform fee for life.</p>
+          <form id="mentor-form" action="https://formspree.io/f/xeedvkva" method="POST">
+            <input type="hidden" name="type" value="Mentor Application" />
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First name</label>
+                <input class="form-input form-input-mentor" type="text" name="first_name" placeholder="Sarah" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last name</label>
+                <input class="form-input form-input-mentor" type="text" name="last_name" placeholder="Chen" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email address</label>
+              <input class="form-input form-input-mentor" type="email" name="email" placeholder="sarah@company.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Current job title</label>
+              <input class="form-input form-input-mentor" type="text" name="job_title" placeholder="VP of Product" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Industry</label>
+                <select class="form-input form-input-mentor" name="industry" required>
+                  <option value="" disabled selected>Select...</option>
+                  <option>Technology</option>
+                  <option>Finance & Banking</option>
+                  <option>Consulting</option>
+                  <option>Marketing & Media</option>
+                  <option>Sales & Commercial</option>
+                  <option>Legal</option>
+                  <option>Healthcare</option>
+                  <option>Education</option>
+                  <option>Entrepreneurship</option>
+                  <option>Design & Creative</option>
+                  <option>Engineering</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Years of experience</label>
+                <select class="form-input form-input-mentor" name="experience" required>
+                  <option value="" disabled selected>Select...</option>
+                  <option>5–8 years</option>
+                  <option>8–12 years</option>
+                  <option>12–20 years</option>
+                  <option>20+ years</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">LinkedIn profile URL</label>
+              <input class="form-input form-input-mentor" type="url" name="linkedin" placeholder="linkedin.com/in/yourprofile" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Why do you want to mentor?</label>
+              <textarea class="form-input form-input-mentor" name="motivation" placeholder="Tell us in a few sentences what drives you to share your experience..." required></textarea>
+            </div>
+            <button class="submit-btn submit-btn-mentor" type="submit">Apply to be a founding mentor →</button>
+          </form>
+          <div class="form-success form-success-mentor" id="mentor-success">
+            <div class="form-success-icon">🌱</div>
+            <h3>Application received!</h3>
+            <p>We'll review your application and be in touch within 48 hours with next steps.</p>
+          </div>
+        </div>
+
+        <!-- MENTEE FORM -->
+        <div class="reg-card reg-card-mentee">
+          <div class="reg-badge reg-badge-mentee">Early access</div>
+          <h2>Find a mentor</h2>
+          <p>Join the waitlist and get early access to Orlyo when we launch. You'll be among the first to connect with our founding mentors and experience Orla, your AI career companion.</p>
+          <form id="mentee-form" action="https://formspree.io/f/xeedvkva" method="POST">
+            <input type="hidden" name="type" value="Mentee Waitlist" />
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First name</label>
+                <input class="form-input form-input-mentee" type="text" name="first_name" placeholder="James" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last name</label>
+                <input class="form-input form-input-mentee" type="text" name="last_name" placeholder="Taylor" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email address</label>
+              <input class="form-input form-input-mentee" type="email" name="email" placeholder="james@email.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Current job title</label>
+              <input class="form-input form-input-mentee" type="text" name="job_title" placeholder="Senior Account Manager" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Industry</label>
+              <select class="form-input form-input-mentee" name="industry" required>
+                <option value="" disabled selected>Select your industry...</option>
+                <option>Technology</option>
+                <option>Finance & Banking</option>
+                <option>Consulting</option>
+                <option>Marketing & Media</option>
+                <option>Sales & Commercial</option>
+                <option>Legal</option>
+                <option>Healthcare</option>
+                <option>Education</option>
+                <option>Entrepreneurship</option>
+                <option>Design & Creative</option>
+                <option>Engineering</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">What's your target role?</label>
+              <input class="form-input form-input-mentee" type="text" name="target_role" placeholder="Commercial Director" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">What's your biggest career challenge right now?</label>
+              <textarea class="form-input form-input-mentee" name="challenge" placeholder="Tell us briefly what you're looking to work on..." required></textarea>
+            </div>
+            <button class="submit-btn submit-btn-mentee" type="submit">Join the waitlist →</button>
+          </form>
+          <div class="form-success form-success-mentee" id="mentee-success">
+            <div class="form-success-icon">🎯</div>
+            <h3>You're on the list!</h3>
+            <p>We'll be in touch when early access opens. Keep an eye on your inbox.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
 
     <!-- FEATURES -->
     <section class="features" id="features">
-      <p class="section-label">Why Orlyo</p>
+      <p class="section-label">The platform</p>
       <h2 class="section-title">Everything you need to<br />reach your next role</h2>
+      <p class="section-sub">Orlyo combines expert human mentorship with AI intelligence — so you get guidance that's both personal and always-on.</p>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon" style="background:#E8F8EE;">📊</div>
@@ -599,7 +366,7 @@
         <div class="feature-card">
           <div class="feature-icon" style="background:#E8F8EE;">📡</div>
           <h3>Real-time career signals</h3>
-          <p>Orla monitors your target companies and sector so you never miss an opportunity — hiring freezes, funding rounds and market shifts.</p>
+          <p>Orla monitors your target companies and sector so you never miss an opportunity — hiring trends, funding rounds and market shifts.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon" style="background:#F0EEFF;">🗺️</div>
@@ -609,7 +376,7 @@
         <div class="feature-card">
           <div class="feature-icon" style="background:#FFF9E6;">✍️</div>
           <h3>Apply with confidence</h3>
-          <p>AI cover letters tailored to each role using your profile, experience and the job description — ready in seconds.</p>
+          <p>AI cover letters tailored to each role using your profile, experience and the job description — ready in seconds, never generic.</p>
         </div>
       </div>
     </section>
@@ -620,12 +387,13 @@
         <div>
           <div class="orla-tag">✦ Meet Orla</div>
           <h2>Your AI career companion</h2>
-          <p>Orla isn't just a chatbot. She knows your career history, tracks your progress, monitors the market and proactively guides you — 24 hours a day.</p>
+          <p>Orla is the intelligence behind Orlyo. She knows your career history, tracks your progress, monitors the market and proactively guides you — personalised to you, available 24 hours a day.</p>
           <div class="orla-features">
             <div class="orla-feature"><span class="orla-feature-dot"></span>Personalised coaching available anytime</div>
-            <div class="orla-feature"><span class="orla-feature-dot"></span>Proactive nudges based on your goals</div>
+            <div class="orla-feature"><span class="orla-feature-dot"></span>Proactive nudges based on your goals and activity</div>
             <div class="orla-feature"><span class="orla-feature-dot"></span>Learns from every session and interaction</div>
             <div class="orla-feature"><span class="orla-feature-dot"></span>Connects all your career data intelligently</div>
+            <div class="orla-feature"><span class="orla-feature-dot"></span>Surfaces opportunities before you think to look</div>
           </div>
         </div>
         <div class="orla-visual">
@@ -644,57 +412,118 @@
         <div class="step">
           <div class="step-number">1</div>
           <h3>Build your profile</h3>
-          <p>Describe yourself in plain English. Orla extracts your experience, skills and goals automatically — no forms, no friction.</p>
+          <p>Describe yourself in plain English. Orla extracts your experience, skills and goals automatically — no forms, no friction, no CV upload needed.</p>
         </div>
         <div class="step">
           <div class="step-number">2</div>
           <h3>Match with a mentor</h3>
-          <p>Swipe through AI-matched mentor profiles. When they accept your request, you're connected and ready to start.</p>
+          <p>Swipe through AI-matched mentor profiles. When they accept your request, you're connected and ready to book your first session.</p>
         </div>
         <div class="step">
           <div class="step-number">3</div>
           <h3>Grow with guidance</h3>
-          <p>Book sessions, track goals, practice interviews and let Orla guide you every step of the way to your target role.</p>
+          <p>Book sessions, track goals, practice interviews and let Orla guide you every step of the way towards your target role.</p>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-section" id="download">
-      <h2>Ready to accelerate<br />your career?</h2>
-      <p>Join thousands of professionals growing with Orlyo.</p>
-      <div class="app-badges">
-        <a href="#" class="app-badge">
-          <svg width="20" height="24" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          <div>
-            <span class="app-badge-sub">Download on the</span>
-            App Store
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+      <p class="section-label">Early feedback</p>
+      <h2 class="section-title">What our beta users say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Orlyo matched me with a mentor who'd made the exact transition I wanted to make. Within three months I had a new job title and a significant salary increase."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:#5BC87A;">S</div>
+            <div><div class="testimonial-name">Sarah M.</div><div class="testimonial-role">Product Manager, London</div></div>
           </div>
-        </a>
-        <a href="#" class="app-badge">
-          <svg width="20" height="22" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.35.19.75.25 1.15.17l12.18-12.18L13.36 8.6 3.18 23.76zm17.31-10.41l-3.06-1.75-3.38 3.38 3.38 3.38 3.07-1.76c.87-.5.87-1.75-.01-2.25zM2.14 1.13C2.05 1.37 2 1.64 2 1.94v20.12c0 .3.05.57.14.81l.1.1 11.26-11.26v-.27L2.24 1.03l-.1.1zm11.22 11.55l3.25-3.25-3.25-3.25L2.14 1.13"/></svg>
-          <div>
-            <span class="app-badge-sub">Get it on</span>
-            Google Play
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The gap analysis was a revelation. I thought I knew what I needed to work on — Orla showed me I was completely wrong. It saved me months of going in the wrong direction."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:#4C03FF;">J</div>
+            <div><div class="testimonial-name">James T.</div><div class="testimonial-role">Senior Engineer, Manchester</div></div>
           </div>
-        </a>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I've tried other mentorship platforms. Orlyo is different. The AI layer means you get value between sessions too — Orla keeps you accountable and moving forward."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:#1B2833;">A</div>
+            <div><div class="testimonial-name">Aisha K.</div><div class="testimonial-role">Marketing Director, Birmingham</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section" id="about">
+      <div>
+        <p class="section-label">About Orlyo</p>
+        <h2>Built for ambitious professionals</h2>
+        <p>Orlyo was founded with a simple belief: great mentorship should be accessible to everyone, not just those lucky enough to know the right people.</p>
+        <p>We combine the warmth of human mentorship with the intelligence of AI to create something genuinely new — a career companion that grows with you, available whenever you need it.</p>
+        <p>Orlyo Ltd is registered in England and Wales. We are based in the United Kingdom and serve professionals across the UK and internationally.</p>
+        <p style="margin-top:24px;"><a href="mailto:hello@orlyo.app" style="color:var(--green-mid); font-weight:500; text-decoration:none;">hello@orlyo.app</a></p>
+      </div>
+      <div class="about-visual">
+        <div class="about-stat">
+          <div class="about-stat-value">UK-based</div>
+          <div class="about-stat-label">Headquartered in England and Wales</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-value">GDPR</div>
+          <div class="about-stat-label">Fully compliant data handling</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-value">2026</div>
+          <div class="about-stat-label">Incorporated in England and Wales</div>
+        </div>
       </div>
     </section>
 
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <a href="/" class="footer-logo">orlyo</a>
     <ul class="footer-links">
+      <li><a href="#register">Join beta</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#orla">Orla AI</a></li>
-      <li><a href="#how">How it works</a></li>
+      <li><a href="#about">About</a></li>
       <li><a href="privacy.html">Privacy Policy</a></li>
       <li><a href="mailto:hello@orlyo.app">Contact</a></li>
     </ul>
-    <p class="footer-copy">© 2026 Orlyo Ltd. All rights reserved.</p>
+    <p class="footer-copy">© 2026 Orlyo Ltd. Registered in England and Wales.</p>
   </footer>
+
+  <script>
+    document.getElementById('mentor-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('mentor-success').style.display = 'block';
+        }
+      } catch(err) { form.submit(); }
+    });
+
+    document.getElementById('mentee-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('mentee-success').style.display = 'block';
+        }
+      } catch(err) { form.submit(); }
+    });
+  </script>
 
 </body>
 </html>
