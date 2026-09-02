@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orlyo — Growth, guided.</title>
-  <meta name="description" content="Orlyo connects ambitious professionals with expert mentors, guided by Orla — your AI career companion. Apply to become a founding mentor or join the waitlist for early access." />
+  <title>Orlyo | Growth, guided.</title>
+  <meta name="description" content="Orlyo connects ambitious professionals with expert mentors, guided by Orla, your AI career companion. Apply to become a founding mentor or join the waitlist for early access." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -210,6 +210,36 @@
                  white-space: nowrap; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; }
     .btn-green:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(151,255,151,0.3); }
 
+    /* ---------- AUDIENCE SWITCH + TAILORED PATH ---------- */
+    [data-aud="mentor"] .only-mentee { display: none !important; }
+    [data-aud="mentee"] .only-mentor { display: none !important; }
+    .aud-switch { display: inline-flex; background: rgba(27,40,51,0.07); border: 1px solid rgba(27,40,51,0.12);
+      border-radius: 99px; padding: 5px; gap: 4px; }
+    .aud-switch button { appearance: none; border: none; background: transparent; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--navy);
+      padding: 11px 22px; border-radius: 99px; white-space: nowrap; transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
+    [data-aud="mentor"] .aud-switch .as-mentor,
+    [data-aud="mentee"] .aud-switch .as-mentee { background: var(--navy); color: #fff; box-shadow: 0 6px 16px rgba(27,40,51,0.18); }
+    .hero-switch { margin: 4px 0 26px; }
+    .path { padding: 88px 0 92px; }
+    .path-eyebrow { text-align: center; }
+    .path-switch-wrap { display: flex; justify-content: center; margin: 14px 0 46px; }
+    .track-what { text-align: center; max-width: 760px; margin: 0 auto; }
+    .track-what .htitle { margin-bottom: 16px; }
+    .track-what .lead { margin: 0 auto; }
+    .path-sub { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 27px; text-align: center;
+      letter-spacing: -0.4px; margin: 58px 0 26px; }
+    .path-cta { text-align: center; margin-top: 48px; }
+    .path-cta-note { font-size: 13px; color: var(--grey); margin-top: 14px; }
+    .hero-note { font-size: 13.5px; color: rgba(27,40,51,0.6); margin-top: 18px; }
+    .why-orlyo { background: var(--navy); }
+    .why-inner { max-width: 760px; margin: 0 auto; padding: clamp(60px,8vw,92px) clamp(24px,5vw,40px); text-align: center; }
+    .why-inner .eyebrow { color: var(--green); }
+    .why-inner h2 { font-family: 'Cormorant Garamond', serif; font-weight: 700; color: #fff;
+      font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: -1px; margin-bottom: 22px; }
+    .why-inner p { color: rgba(255,255,255,0.72); font-weight: 300; font-size: 17px; line-height: 1.75; margin-bottom: 16px; }
+    .why-sign { color: var(--green) !important; font-weight: 500 !important; margin: 10px 0 30px !important; }
+
     /* ---------- ORLA ---------- */
     .orla-wrap { background: radial-gradient(120% 120% at 80% 0%, #16233a 0%, var(--navy-deep) 60%);
                  border-radius: 36px; padding: 70px; display: grid; grid-template-columns: 1fr 0.85fr; gap: 60px; align-items: center; }
@@ -352,7 +382,7 @@
     }
   </style>
 </head>
-<body>
+<body data-aud="mentor">
 
   <!-- ===== NAV ===== -->
   <nav id="nav">
@@ -362,7 +392,7 @@
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#orla">Orla AI</a></li>
-      <li><a href="#how">How it works</a></li>
+      <li><a href="#path">How it works</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="privacy.html">Privacy</a></li>
       <li><a href="#register" class="nav-cta">Join the beta</a></li>
@@ -378,13 +408,14 @@
       <div class="hero-copy">
         <div class="hero-badge"><span class="hero-badge-dot"></span>Now welcoming founding mentors</div>
         <h1 class="hero-h1">Growth,<br /><em>guided.</em></h1>
-        <p class="hero-sub">Orlyo connects ambitious professionals with expert mentors, guided every step by Orla — our AI career companion. We're inviting founding mentors now, and opening the waitlist for mentees.</p>
+        <p class="hero-sub">Expert human mentorship, amplified by AI. Whether you want to grow your own career or guide someone else's, Orlyo gives you a clear path and Orla, your AI companion, at every step.</p>
         <div class="hero-actions">
-          <a href="#register" class="btn-primary">Apply as a mentor</a>
-          <a href="#register" class="btn-outline">Join the waitlist</a>
+          <a href="#path" class="btn-primary" onclick="setAud('mentor')">Become a mentor</a>
+          <a href="#path" class="btn-outline" onclick="setAud('mentee')">Find a mentor</a>
         </div>
+        <p class="hero-note">Free to join. We're onboarding our first mentors and members now.</p>
       </div>
-      <div class="hero-stage">
+            <div class="hero-stage">
         <div class="hero-orb-wrap orb-halo">
           <span class="orla-mark hero-orb-img" role="img" aria-label="Orla, your AI career companion"></span>
         </div>
@@ -405,97 +436,101 @@
   <!-- ===== SHEET ===== -->
   <main class="sheet">
 
-    <!-- APP / PROOF -->
-    <section class="block">
-      <div class="wrap app-section">
-        <div class="app-copy reveal">
-          <p class="eyebrow">A real app, in real testers' hands</p>
-          <h2 class="htitle">Mentorship that <em>keeps working</em> between sessions</h2>
-          <p class="lead">Orlyo is a full mobile app — swipe to find your mentor, book and pay for sessions, meet by video, and let Orla keep you moving forward in between. It's live with beta testers right now.</p>
-          <div class="app-points">
-            <div class="app-point">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5BC87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              <div><b>Matched, not searched</b><p>AI pairs you with vetted mentors who have walked your exact path — by expertise, goals and timezone.</p></div>
-            </div>
-            <div class="app-point">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5BC87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              <div><b>Book, pay and meet in one place</b><p>Secure session payments and built-in video calls — your first session with a mentor can be on the house.</p></div>
-            </div>
-            <div class="app-point">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5BC87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              <div><b>Always-on guidance</b><p>Orla tracks your goals, prepares your sessions and nudges you when it matters — not just when you log in.</p></div>
-            </div>
+    <!-- YOUR PATH (audience-tailored) -->
+    <section class="path" id="path">
+      <div class="wrap">
+        <div class="path-top reveal">
+          <p class="eyebrow path-eyebrow">Your path with Orlyo</p>
+        </div>
+        <div class="path-switch-wrap">
+          <div class="aud-switch" role="tablist" aria-label="Choose your path">
+            <button type="button" class="as-mentor" onclick="setAud('mentor')" aria-pressed="true">For mentors</button>
+            <button type="button" class="as-mentee" onclick="setAud('mentee')" aria-pressed="false">For mentees</button>
           </div>
         </div>
-        <div class="phone-stage reveal">
-          <div class="phone">
-            <div class="screen">
-              <div class="scr-top">
-                <span class="orla-mark scr-orb-img" role="img" aria-label="Orla"></span>
-                <div><div class="scr-hi">Good morning</div><div class="scr-name">Here's your day, James</div></div>
-              </div>
-              <div class="scr-card">
-                <div class="scr-card-label">Gap analysis</div>
-                <div class="scr-ready">
-                  <div class="scr-ring"><span>86%</span></div>
-                  <div class="scr-role">Head of Sales<small>2 skills left to close · re-assess anytime</small></div>
-                </div>
-              </div>
-              <div class="scr-card">
-                <div class="scr-card-label">Career signal</div>
-                <div class="scr-signal"><span class="scr-signal-dot"></span><p>3 Head of Sales roles opened near you this week. Want Orla to draft cover letters?</p></div>
-              </div>
-              <div class="scr-card scr-nudge">
-                <div class="scr-card-label">Orla nudge</div>
-                <p>You've not booked a session in 9 days. Hayley has slots on Thursday — shall I hold one?</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- MENTOR FOCUS -->
-    <section class="mentor">
-      <div class="mentor-inner">
-        <div class="mentor-head reveal">
-          <p class="eyebrow">For mentors</p>
-          <h2>Become a <em>founding mentor</em></h2>
-          <p>We're building Orlyo with our mentors first. Bring your experience — we'll handle everything around it, and Orla makes every session easy to show up for.</p>
+        <!-- MENTOR TRACK -->
+        <div class="track only-mentor">
+          <div class="track-what">
+            <h2 class="htitle">Mentor on your terms, <em>we handle the rest</em></h2>
+            <p class="lead">Orlyo connects you with motivated professionals to mentor, and Orla, our AI, preps every session for you. Share what you know, on your schedule, and get paid for it.</p>
+          </div>
+          <h3 class="path-sub">Why mentor with Orlyo</h3>
+          <div class="feat-grid">
+            <div class="feat-card">
+              <div class="feat-ic" style="background:#E8F8EE;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DA85E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7-7V4a1 1 0 0 1 1-1h6.2l9.8 9.8a2 2 0 0 1 0 2.6z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>
+              </div>
+              <h3>Free to join, paid fairly</h3>
+              <p>No fees to sign up. Set your own rate, and we handle payments and pay you out automatically.</p>
+            </div>
+            <div class="feat-card">
+              <div class="feat-ic" style="background:#F0EEFF;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4C03FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.4L12 17l-1.9-5.6L4.5 10l5.6-1.4z"/></svg>
+              </div>
+              <h3>Impact without the admin</h3>
+              <p>Orla writes your session prep and briefs you on each mentee, so you just turn up and share.</p>
+            </div>
+            <div class="feat-card">
+              <div class="feat-ic" style="background:#FFF9E6;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3>Founding-mentor perks</h3>
+              <p>Join now for priority placement in matching and a reduced platform fee, for life.</p>
+            </div>
+          </div>
+          <h3 class="path-sub">How to get started</h3>
+          <div class="steps">
+            <div class="step"><div class="step-num">STEP 01</div><h3>Apply</h3><p>Tell us about your experience and how you like to mentor. It takes about two minutes.</p></div>
+            <div class="step"><div class="step-num">STEP 02</div><h3>Set up your profile</h3><p>Set your rate and availability, and Orla helps you build a standout profile in minutes.</p></div>
+            <div class="step"><div class="step-num">STEP 03</div><h3>Match &amp; mentor</h3><p>Accept the mentees that fit and meet them on your schedule.</p></div>
+          </div>
+          <div class="path-cta">
+            <a href="#apply-mentor" class="btn-primary" onclick="setAud('mentor')">Apply as a founding mentor →</a>
+            <p class="path-cta-note">Free to join. No subscription, ever.</p>
+          </div>
         </div>
-        <div class="mentor-grid">
-          <div class="mtile reveal">
-            <div class="mtile-ic">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#97FF97" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7-7V4a1 1 0 0 1 1-1h6.2l9.8 9.8a2 2 0 0 1 0 2.6z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>
-            </div>
-            <h3>It's free to join</h3>
-            <p>No fees, no subscription. List your profile and start mentoring whenever it suits you.</p>
+
+        <!-- MENTEE TRACK -->
+        <div class="track only-mentee">
+          <div class="track-what">
+            <h2 class="htitle">Reach your next role, <em>with a guide who's done it</em></h2>
+            <p class="lead">Orlyo pairs you with a mentor who's already made the move you're aiming for, and gives you Orla, an AI companion that keeps you moving between sessions.</p>
           </div>
-          <div class="mtile reveal">
-            <div class="mtile-ic">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#97FF97" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3M15 9.2A6 6 0 0 1 21 12v5c0 1.7-2.7 3-6 3s-6-1.3-6-3v-2"/></svg>
+          <h3 class="path-sub">Why grow with Orlyo</h3>
+          <div class="feat-grid">
+            <div class="feat-card">
+              <div class="feat-ic" style="background:#E8F8EE;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DA85E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12 8 8M12 7v5"/></svg>
+              </div>
+              <h3>Know where you stand</h3>
+              <p>A readiness score and the exact skill gaps between you and your target role.</p>
             </div>
-            <h3>Earn from every session</h3>
-            <p>Set your own rate. We take care of payments and pay you out automatically.</p>
-          </div>
-          <div class="mtile reveal">
-            <div class="mtile-ic">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#97FF97" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19a6 6 0 0 1 12 0M16 5.5a3 3 0 0 1 0 5M18 19a5 5 0 0 0-3-4.6"/></svg>
+            <div class="feat-card">
+              <div class="feat-ic" style="background:#F0EEFF;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4C03FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
+              </div>
+              <h3>A clear route to your goal</h3>
+              <p>A roadmap for the next 6 to 24 months, plus interview practice and matched jobs, all in one place.</p>
             </div>
-            <h3>Coach the next generation</h3>
-            <p>Guide ambitious professionals through the moves you've already made.</p>
-          </div>
-          <div class="mtile reveal">
-            <div class="mtile-ic">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#97FF97" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.4L12 17l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M19 16l.7 2 .8-2 .8.7-2 .7-.7 2-.7-2-2-.7z" fill="#97FF97" stroke="none"/></svg>
+            <div class="feat-card">
+              <div class="feat-ic" style="background:#FFF9E6;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5"/></svg>
+              </div>
+              <h3>Guidance every day</h3>
+              <p>Orla coaches you, nudges you and surfaces opportunities, not just during sessions.</p>
             </div>
-            <h3>Share your wisdom, simply</h3>
-            <p>Orla preps each session and briefs you on every mentee. Just turn up and talk.</p>
           </div>
-        </div>
-        <div class="mentor-cta reveal">
-          <p><b>Founding mentors</b> get priority placement and a reduced platform fee — for life.</p>
-          <a href="#register" class="btn-green">Apply as a founding mentor →</a>
+          <h3 class="path-sub">How to get started</h3>
+          <div class="steps">
+            <div class="step"><div class="step-num">STEP 01</div><h3>Join the waitlist</h3><p>Thirty seconds to secure your place for early access.</p></div>
+            <div class="step"><div class="step-num">STEP 02</div><h3>Tell Orla your goals</h3><p>She builds your profile and finds mentors who fit. No CV upload needed.</p></div>
+            <div class="step"><div class="step-num">STEP 03</div><h3>Match &amp; grow</h3><p>Connect, book your first session (often free), and start moving.</p></div>
+          </div>
+          <div class="path-cta">
+            <a href="#apply-mentee" class="btn-primary" onclick="setAud('mentee')">Join the waitlist →</a>
+            <p class="path-cta-note">It's free, and takes 30 seconds.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -505,8 +540,8 @@
       <div class="wrap">
         <div class="feat-head reveal">
           <p class="eyebrow">The platform</p>
-          <h2 class="htitle">Everything you need to reach your <em>next role</em></h2>
-          <p class="lead">Expert human mentorship, amplified by AI — so the guidance is personal, specific to you, and always within reach.</p>
+          <h2 class="htitle">What's inside <em>Orlyo</em></h2>
+          <p class="lead">Expert human mentorship, amplified by AI. For mentees, that's a clearer path to your next role. For mentors, it's what makes your guidance land.</p>
         </div>
         <div class="feat-grid">
 
@@ -515,7 +550,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DA85E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12 8 8M12 7v5"/></svg>
             </div>
             <h3>Know your gaps</h3>
-            <p>A living readiness score for your target role and the exact skills standing between you and it. Re-assess any time — it updates as you complete goals, sessions and promotions.</p>
+            <p>A living readiness score for your target role, and the exact skills standing between you and it. Re-assess any time, and it updates as you complete goals, sessions and promotions.</p>
           </div>
 
           <div class="feat-card reveal">
@@ -523,7 +558,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4C03FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
             </div>
             <h3>Your path, mapped</h3>
-            <p>A personalised 6–24 month roadmap to your target role: phased milestones, quick wins, risks to watch and realistic salary progression — turn any step into a tracked goal.</p>
+            <p>A personalised roadmap to your target role for the next 6 to 24 months: phased milestones, quick wins, risks to watch and realistic salary progression. Turn any step into a tracked goal.</p>
           </div>
 
           <div class="feat-card reveal">
@@ -531,7 +566,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
             </div>
             <h3>Practice until you're ready</h3>
-            <p>Role-specific mock interviews with questions read aloud and detailed feedback on your answers — a banded score, sub-scores and exactly what to sharpen before the real thing.</p>
+            <p>Role-specific mock interviews with questions read aloud, and detailed feedback on your answers: a banded score, sub-scores and exactly what to sharpen before the real thing.</p>
           </div>
 
           <div class="feat-card reveal">
@@ -539,7 +574,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DA85E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5"/></svg>
             </div>
             <h3>Real-time career signals</h3>
-            <p>Orla watches your target companies and sector and sends a weekly digest tuned to where you are — hiring trends, openings near you, funding rounds and market shifts.</p>
+            <p>Orla watches your target companies and sector, and sends a weekly digest tuned to where you are: hiring trends, openings near you, funding rounds and market shifts.</p>
           </div>
 
           <div class="feat-card reveal">
@@ -547,7 +582,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4C03FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 3h9l5 5v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 13h8M8 17h5"/></svg>
             </div>
             <h3>Find &amp; apply, smarter</h3>
-            <p>Matched jobs ranked for fit, saved in one tap, plus tailored cover letters drafted from your profile and the role in seconds — never generic, ready to send.</p>
+            <p>Matched jobs ranked for fit, saved in one tap, plus tailored cover letters drafted from your profile and the role in seconds. Never generic, always ready to send.</p>
             <span class="feat-tag">Pro</span>
           </div>
 
@@ -556,7 +591,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
             <h3>A relationship that lasts</h3>
-            <p>Orla quietly tracks the health of every mentor pairing and steps in before momentum fades — so connections stay active and genuinely move you forward.</p>
+            <p>Orla quietly tracks the health of every mentor pairing and steps in before momentum fades, so connections stay active and genuinely move you forward.</p>
             <span class="feat-tag">Pro</span>
           </div>
 
@@ -571,7 +606,7 @@
           <div class="orla-text">
             <div class="orla-tag">✦ Meet Orla</div>
             <h2>Your AI career <em>companion</em></h2>
-            <p class="orla-intro">Orla is the intelligence behind Orlyo. She knows your history, tracks your progress, watches the market and guides you proactively — personalised to you, every hour of the day.</p>
+            <p class="orla-intro">Orla is the intelligence behind Orlyo. She knows your history, tracks your progress, watches the market and guides you proactively, personalised to you, every hour of the day.</p>
             <div class="orla-feats">
               <div class="orla-feat"><span class="orla-feat-dot"></span>Builds your profile from a plain-English description</div>
               <div class="orla-feat"><span class="orla-feat-dot"></span>Scores your readiness and maps your route</div>
@@ -590,30 +625,16 @@
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="block-tight" id="how">
-      <div class="wrap">
-        <div class="reveal" style="max-width:600px;">
-          <p class="eyebrow">How it works</p>
-          <h2 class="htitle">From sign up to your <em>next role</em></h2>
-        </div>
-        <div class="steps">
-          <div class="step reveal">
-            <div class="step-num">STEP 01</div>
-            <h3>Tell Orla about you</h3>
-            <p>Describe yourself in plain English. Orla pulls out your experience, skills and goals automatically — no long forms, no CV upload.</p>
-          </div>
-          <div class="step reveal">
-            <div class="step-num">STEP 02</div>
-            <h3>Match with a mentor</h3>
-            <p>Swipe through AI-matched mentor profiles. When they accept, you're connected and ready to book your first session.</p>
-          </div>
-          <div class="step reveal">
-            <div class="step-num">STEP 03</div>
-            <h3>Grow with guidance</h3>
-            <p>Book sessions, track goals, practice interviews and let Orla guide you towards your target role — every step of the way.</p>
-          </div>
-        </div>
+    <!-- WHY ORLYO -->
+    <section class="why-orlyo">
+      <div class="why-inner reveal">
+        <p class="eyebrow">Why Orlyo</p>
+        <h2>Great mentorship shouldn't come down to who you know</h2>
+        <p>The best career advice still gets shared quietly, between people who happen to know the right person. Everyone else is left guessing.</p>
+        <p>We're building the opposite: a place where anyone can reach a mentor who's actually done the job they're aiming for, backed by Orla, an AI companion that turns an hour a month into real, steady progress.</p>
+        <p>We're early, and we're choosing our founding mentors and members with care. If that sounds like you, we'd love to have you in from the start.</p>
+        <p class="why-sign">The Orlyo team</p>
+        <a href="#path" class="btn-green">Find your path</a>
       </div>
     </section>
 
@@ -628,7 +649,7 @@
         <div class="reg-grid">
 
           <!-- MENTOR FORM -->
-          <div class="reg-card reg-card-mentor reveal">
+          <div class="reg-card reg-card-mentor reveal" id="apply-mentor">
             <div class="reg-badge reg-badge-mentor">✦ Founding mentor</div>
             <h2>Become a mentor</h2>
             <p>Share your expertise, guide the next generation, and earn from every session. Founding mentors get priority placement and a reduced platform fee for life.</p>
@@ -695,12 +716,12 @@
             <div class="form-success form-success-mentor" id="mentor-success">
               <div class="form-success-icon">🌱</div>
               <h3>Application received!</h3>
-              <p>We'll review your application and be in touch within 48 hours with next steps.</p>
+              <p>Thanks for applying. We'll be in touch soon with your next steps.</p>
             </div>
           </div>
 
           <!-- MENTEE FORM -->
-          <div class="reg-card reg-card-mentee reveal">
+          <div class="reg-card reg-card-mentee reveal" id="apply-mentee">
             <div class="reg-badge reg-badge-mentee">Early access</div>
             <h2>Find a mentor</h2>
             <p>Join the waitlist and get early access to Orlyo when we launch. You'll be among the first to connect with our founding mentors and experience Orla, your AI career companion.</p>
@@ -747,8 +768,8 @@
                 <input class="form-input form-input-mentee" type="text" name="target_role" placeholder="Commercial Director" required />
               </div>
               <div class="form-group">
-                <label class="form-label">What's your biggest career challenge right now?</label>
-                <textarea class="form-input form-input-mentee" name="challenge" placeholder="Tell us briefly what you're looking to work on..." required></textarea>
+                <label class="form-label">What's your biggest career challenge? (optional)</label>
+                <textarea class="form-input form-input-mentee" name="challenge" placeholder="Tell us briefly what you're looking to work on..."></textarea>
               </div>
               <button class="submit-btn submit-btn-mentee" type="submit">Join the waitlist →</button>
             </form>
@@ -763,48 +784,14 @@
       </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section class="block-tight">
-      <div class="wrap">
-        <div class="reveal" style="max-width:600px;">
-          <p class="eyebrow">Early feedback</p>
-          <h2 class="htitle">What our beta users <em>say</em></h2>
-        </div>
-        <div class="tgrid">
-          <div class="tcard reveal">
-            <p class="ttext">"Orlyo matched me with a mentor who'd made the exact transition I wanted to make. Within three months I had a new job title and a significant salary increase."</p>
-            <div class="tauthor">
-              <div class="tavatar" style="background:#5BC87A;">S</div>
-              <div><div class="tname">Sarah M.</div><div class="trole">Product Manager, London</div></div>
-            </div>
-          </div>
-          <div class="tcard reveal">
-            <p class="ttext">"The gap analysis was a revelation. I thought I knew what I needed to work on — Orla showed me I was completely wrong. It saved me months of going in the wrong direction."</p>
-            <div class="tauthor">
-              <div class="tavatar" style="background:#4C03FF;">J</div>
-              <div><div class="tname">James T.</div><div class="trole">Senior Engineer, Manchester</div></div>
-            </div>
-          </div>
-          <div class="tcard reveal">
-            <p class="ttext">"I've tried other mentorship platforms. Orlyo is different. The AI layer means you get value between sessions too — Orla keeps you accountable and moving forward."</p>
-            <div class="tauthor">
-              <div class="tavatar" style="background:#1B2833;">A</div>
-              <div><div class="tname">Aisha K.</div><div class="trole">Marketing Director, Birmingham</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ABOUT -->
     <section class="block" id="about">
       <div class="wrap about">
         <div class="reveal">
           <p class="eyebrow">About Orlyo</p>
           <h2>Built for ambitious professionals</h2>
-          <p>Orlyo was founded on a simple belief: great mentorship should be open to everyone, not just those lucky enough to know the right people.</p>
-          <p>We pair the warmth of human mentorship with the intelligence of AI to make something genuinely new — a career companion that grows with you, available whenever you need it.</p>
-          <p>We're based in the UK and work with ambitious professionals here and around the world.</p>
+          <p>Orlyo brings expert mentorship and AI together in one place, built for people who are serious about where they're heading.</p>
+          <p>We're a UK company, and we take your data seriously. It's handled securely and in line with GDPR.</p>
           <p style="margin-top:22px;"><a href="mailto:hello@orlyo.app" style="color:var(--green-deep); font-weight:500;">hello@orlyo.app</a></p>
         </div>
         <div class="about-visual reveal">
@@ -843,6 +830,13 @@
   </footer>
 
   <script>
+    // Audience switch (mentor / mentee)
+    function setAud(a){
+      document.body.setAttribute('data-aud', a);
+      document.querySelectorAll('.as-mentor').forEach(function(b){ b.setAttribute('aria-pressed', a === 'mentor'); });
+      document.querySelectorAll('.as-mentee').forEach(function(b){ b.setAttribute('aria-pressed', a === 'mentee'); });
+    }
+
     // Nav condense on scroll
     const nav = document.getElementById('nav');
     const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
@@ -855,7 +849,7 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-    // Form handlers (preserved — Formspree submit + success swap)
+    // Form handlers (preserved: Formspree submit + success swap)
     function wireForm(formId, successId) {
       const form = document.getElementById(formId);
       form.addEventListener('submit', async function (e) {
