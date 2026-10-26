@@ -1,0 +1,35 @@
+/* Public mentor pages — brand: Cormorant Garamond + DM Sans, navy / mint. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', system-ui, -apple-system, sans-serif; background: #E9F4EC; color: #1B2833; min-height: 100vh; }
+.top { display: flex; justify-content: center; padding: 20px 16px 8px; }
+.wordmark { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; font-size: 30px; color: #1B2833; text-decoration: none; }
+main { max-width: 520px; margin: 0 auto; padding: 8px 16px 40px; display: grid; gap: 16px; }
+.card { background: #fff; border-radius: 28px; padding: 28px 24px; box-shadow: 0 4px 14px rgba(18, 36, 28, 0.05); }
+.card-empty { text-align: center; display: grid; gap: 12px; justify-items: center; }
+.hero { text-align: center; display: grid; justify-items: center; gap: 6px; }
+.photo { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; border: 3px solid #E9F4EC; }
+.photo-fallback { display: grid; place-items: center; background: #5BC87A; color: #fff; font-weight: 700; font-size: 34px; }
+h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 34px; line-height: 1.1; margin-top: 8px; }
+.headline { color: #6B776F; font-size: 15px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; padding: 4px 11px; border-radius: 999px; background: #EDE0FF; color: #4C03FF; font-size: 12px; font-weight: 500; }
+.pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+.pill { padding: 5px 12px; border-radius: 999px; background: #EEF2EF; font-size: 13px; font-weight: 500; }
+.pill-green { background: #E8F8EE; color: #1E9E64; }
+.status { text-align: center; color: #1E9E64; font-size: 13px; font-weight: 500; margin-top: 12px; }
+.status-off { color: #6B776F; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #6B776F; margin: 22px 0 8px; }
+.bio { font-size: 15px; line-height: 1.6; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border: 1px solid #DDE3DF; border-radius: 999px; font-size: 13px; }
+.cta { background: #fff; border-radius: 28px; padding: 24px; display: grid; gap: 12px; text-align: center; }
+.cta-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 26px; text-transform: none; letter-spacing: 0; color: #1B2833; margin: 0 0 4px; }
+.btn { display: block; padding: 14px 20px; border-radius: 999px; font-size: 15px; font-weight: 500; text-decoration: none; }
+.btn-primary { background: #1B2833; color: #fff; }
+.btn-secondary { background: #EEF2EF; color: #1B2833; }
+.code-box { margin-top: 6px; padding: 16px; border-radius: 18px; background: #E8F8EE; display: grid; gap: 10px; }
+.code-label { font-size: 14px; color: #1B2833; }
+.code-row { display: flex; justify-content: center; align-items: center; gap: 10px; }
+.code { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; }
+.btn-copy { border: 0; border-radius: 999px; padding: 8px 14px; background: #1B2833; color: #fff; font: inherit; font-size: 13px; cursor: pointer; }
+footer { text-align: center; font-size: 13px; color: #6B776F; padding: 0 16px 32px; }
+footer a { color: #6B776F; margin: 0 8px; }

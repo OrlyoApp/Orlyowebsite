@@ -1,0 +1,44 @@
+name: Mentor pages
+
+# Regenerates /m/<slug>/ pages for founding mentors who have turned sharing on
+# (see scripts/build-mentor-pages.mjs). New mentors also work immediately via
+# the 404.html fallback; this run adds their static page for link previews.
+on:
+  schedule:
+    - cron: '17 * * * *'      # hourly
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [mentor-sharing-changed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mentor-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Generate pages
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          APP_STORE_ID: ${{ vars.APP_STORE_ID }}
+        run: node scripts/build-mentor-pages.mjs
+      - name: Commit changes
+        run: |
+          git config user.name "orlyo-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add m 404.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update mentor pages"
+            git push
+          fi
