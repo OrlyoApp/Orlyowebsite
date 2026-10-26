@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["YD864JGD6P.com.orlyo.app"],
+        "components": [
+          { "/": "/m/*", "comment": "Founding-mentor profile links" }
+        ]
+      }
+    ]
+  }
+}

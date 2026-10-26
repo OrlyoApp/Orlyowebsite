@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orlyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/m/mentor.css">
+</head>
+<body>
+<header class="top"><a class="wordmark" href="/">orlyo</a></header>
+<main id="mentor">
+  <article class="card card-empty">
+    <h1>Page not found</h1>
+    <p class="bio">We couldn't find that page.</p>
+    <a class="btn btn-secondary" href="/">Go to orlyo.app</a>
+  </article>
+</main>
+<footer><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/support.html">Support</a></footer>
+<script type="module">
+  import { hydrate, slugFromPath } from '/m/page.mjs'
+  const slug = slugFromPath()
+  if (slug) hydrate(slug, document.getElementById('mentor'))
+</script>
+</body>
+</html>
