@@ -25,6 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - run: npm ci --no-audit --no-fund
       - name: Generate pages
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}

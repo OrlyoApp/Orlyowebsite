@@ -1,0 +1,10 @@
+{
+  "name": "orlyo-website",
+  "private": true,
+  "type": "module",
+  "description": "Build tooling for the generated mentor pages (scripts/). The site itself is static.",
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "sharp": "0.33.5"
+  }
+}
