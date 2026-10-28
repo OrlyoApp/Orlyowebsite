@@ -16,12 +16,26 @@ import { join } from 'node:path'
 import { esc, renderMentor } from '../m/render.mjs'
 import { ogHash, renderOgImage } from './og-image.mjs'
 
-const SUPABASE_URL = (process.env.SUPABASE_URL || '').replace(/\/$/, '')
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || ''
+const SUPABASE_URL = (process.env.SUPABASE_URL || '').trim().replace(/\/$/, '')
+const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || '').trim()
 const APP_STORE_ID = (process.env.APP_STORE_ID || '').trim()
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error('SUPABASE_URL and SUPABASE_ANON_KEY are required')
+// Failures are reported as GitHub annotations (::error::), which show on the
+// run page and in the public API without opening the log. Never include
+// secret values — only whether they're set and what kind of key it is.
+function fail(message) {
+  console.log(`::error title=Mentor pages::${message}`)
   process.exit(1)
+}
+process.on('uncaughtException', (e) => fail(`Unexpected error: ${e?.message ?? e}`))
+process.on('unhandledRejection', (e) => fail(`Unexpected error: ${e?.message ?? e}`))
+const keyKind = SUPABASE_ANON_KEY.startsWith('sb_publishable_') ? 'publishable key'
+  : SUPABASE_ANON_KEY.startsWith('eyJ') ? 'legacy JWT key'
+  : SUPABASE_ANON_KEY ? `unrecognised key (starts "${SUPABASE_ANON_KEY.slice(0, 3)}…", ${SUPABASE_ANON_KEY.length} chars)` : 'missing'
+let urlHost = 'missing'
+try { if (SUPABASE_URL) urlHost = new URL(SUPABASE_URL).host } catch { urlHost = `unparseable (${SUPABASE_URL.length} chars)` }
+console.log(`Config: SUPABASE_URL host=${urlHost}; SUPABASE_ANON_KEY=${keyKind}`)
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  fail(`SUPABASE_URL and SUPABASE_ANON_KEY are required (url host: ${urlHost}; key: ${keyKind})`)
 }
 const SITE = 'https://www.orlyo.app'
 const APP_STORE_URL = /^\d+$/.test(APP_STORE_ID) ? `https://apps.apple.com/app/id${APP_STORE_ID}` : ''
@@ -118,8 +132,7 @@ const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_public_mentors`, {
   body: '{}',
 })
 if (!res.ok) {
-  console.error(`get_public_mentors failed: HTTP ${res.status} ${await res.text()}`)
-  process.exit(1)
+  fail(`get_public_mentors failed: HTTP ${res.status} ${(await res.text()).slice(0, 200)} (url host: ${urlHost}; key: ${keyKind})`)
 }
 const mentors = (await res.json()).filter((m) => /^[a-z0-9-]+$/.test(m.slug || ''))
 
