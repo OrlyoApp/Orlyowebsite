@@ -18,7 +18,8 @@ import { ogHash, renderOgImage } from './og-image.mjs'
 
 const SUPABASE_URL = (process.env.SUPABASE_URL || '').trim().replace(/\/$/, '')
 const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || '').trim()
-const APP_STORE_ID = (process.env.APP_STORE_ID || '').trim()
+// Take the numeric id out of whatever was pasted (e.g. "APP_STORE_ID =6779751953" or a full apps.apple.com URL).
+const APP_STORE_ID = ((process.env.APP_STORE_ID || '').match(/\d{6,}/) || [''])[0]
 // Failures are reported as GitHub annotations (::error::), which show on the
 // run page and in the public API without opening the log. Never include
 // secret values — only whether they're set and what kind of key it is.
@@ -33,7 +34,7 @@ const keyKind = SUPABASE_ANON_KEY.startsWith('sb_publishable_') ? 'publishable k
   : SUPABASE_ANON_KEY ? `unrecognised key (starts "${SUPABASE_ANON_KEY.slice(0, 3)}…", ${SUPABASE_ANON_KEY.length} chars)` : 'missing'
 let urlHost = 'missing'
 try { if (SUPABASE_URL) urlHost = new URL(SUPABASE_URL).host } catch { urlHost = `unparseable (${SUPABASE_URL.length} chars)` }
-console.log(`Config: SUPABASE_URL host=${urlHost}; SUPABASE_ANON_KEY=${keyKind}`)
+console.log(`Config: SUPABASE_URL host=${urlHost}; SUPABASE_ANON_KEY=${keyKind}; APP_STORE_ID=${APP_STORE_ID || 'not set'}`)
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   fail(`SUPABASE_URL and SUPABASE_ANON_KEY are required (url host: ${urlHost}; key: ${keyKind})`)
 }
