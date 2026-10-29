@@ -129,7 +129,9 @@ ${FOOTER}
 
 const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_public_mentors`, {
   method: 'POST',
-  headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json' },
+  // The publishable key goes in apikey only — it isn't a JWT, so never send it
+  // as Authorization: Bearer (a legacy anon JWT works in apikey too).
+  headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
   body: '{}',
 })
 if (!res.ok) {

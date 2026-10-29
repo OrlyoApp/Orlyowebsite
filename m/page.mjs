@@ -13,7 +13,9 @@ export function slugFromPath(pathname = location.pathname) {
 export async function fetchMentor(slug) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_public_mentor`, {
     method: 'POST',
-    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json' },
+    // The publishable key goes in apikey only — it isn't a JWT, so never send it
+    // as Authorization: Bearer (a legacy anon JWT works in apikey too).
+    headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ p_slug: slug }),
   })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
