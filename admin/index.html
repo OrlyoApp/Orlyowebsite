@@ -71,6 +71,11 @@
   .confirm { margin-top: 8px; padding: 10px; border-radius: 10px; background: #FFF7F5; display: grid; gap: 8px; min-width: 240px; }
   .filters { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
   .filters button.on { background: var(--navy); color: var(--white); }
+  tr.clickable { cursor: pointer; }
+  tr.clickable:hover td { background: #F7FAF8; }
+  .dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; }
+  .dl dt { color: var(--grey); }
+  .back { background: none; border: 0; color: var(--grey); cursor: pointer; margin-bottom: 12px; padding: 0; }
   @media (max-width: 760px) {
     .shell { grid-template-columns: 1fr; }
     nav { flex-direction: row; flex-wrap: wrap; padding: 12px; }
@@ -95,6 +100,7 @@
   <nav id="nav">
     <div class="wordmark">orlyo</div>
     <button data-page="overview" class="active">Overview</button>
+    <button data-page="users">Users</button>
     <button data-page="reports">Reports <span class="count hidden" id="n-reports"></span></button>
     <button data-page="review">Sessions to review <span class="count hidden" id="n-review"></span></button>
     <button data-page="waitlist">Mentor waitlist <span class="count hidden" id="n-waitlist"></span></button>
@@ -399,6 +405,89 @@ pages.founding = (main) => {
       const tr = b.closest('tr'), grant = b.dataset.v === '1', name = tr.dataset.name
       confirmInline(b, { text: grant ? `Give ${name} the founding-mentor badge?` : `Remove ${name}'s founding-mentor badge?`, button: grant ? 'Grant' : 'Remove' },
         async () => { await api('founding_set', { user_id: tr.dataset.id, value: grant }); toast('Saved'); render() })
+    })
+  })
+  render()
+}
+
+// ── Users ────────────────────────────────────────────────────────────────────
+let userQuery = ''
+const ago = (s) => {
+  if (!s) return '—'
+  const d = (Date.now() - new Date(s).getTime()) / 86400000
+  return d < 1 ? 'today' : d < 2 ? 'yesterday' : d < 30 ? `${Math.floor(d)} days ago` : fmtDay(s)
+}
+const lastActive = (u) => {
+  const t = [u.last_seen_at, u.last_sign_in_at].filter(Boolean).sort().pop()
+  return t ? ago(t) : '—'
+}
+pages.users = (main) => {
+  main.innerHTML = `<h1>Users</h1><p class="lead">Search by name or email. Open a user to see their details, suspend them, or change their founding badge.</p>
+    <div class="card"><input id="u-search" placeholder="Search by name or email…" value="${esc(userQuery)}" autocomplete="off"></div>
+    <div id="body"></div>`
+  const body = $('#body'), input = $('#u-search')
+  let timer = null
+  const run = () => load(body, 'users_search', { q: userQuery }, (rows) => {
+    body.innerHTML = rows.length === 0 ? `<div class="card state">No users match “${esc(userQuery)}”.</div>`
+      : `<div class="card table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Signed up</th><th>Pro</th><th>Founding</th><th>Status</th><th>Last active</th><th>App build</th></tr></thead><tbody>
+        ${rows.map((u) => `<tr class="clickable" data-id="${esc(u.id)}">
+          <td><b>${esc(u.name || '—')}</b><div class="muted">${esc(u.email || '')}</div></td>
+          <td>${esc(u.role || '—')}</td>
+          <td class="muted">${fmtDay(u.created_at)}</td>
+          <td>${u.is_pro ? '<span class="pill green">Pro</span>' : '<span class="muted">—</span>'}</td>
+          <td>${u.is_founding_mentor ? '<span class="pill violet">Founding</span>' : '<span class="muted">—</span>'}</td>
+          <td>${u.suspended_at ? '<span class="pill red">Suspended</span>' : u.is_active ? '<span class="muted">Active</span>' : '<span class="pill">Inactive</span>'}</td>
+          <td class="muted">${lastActive(u)}</td>
+          <td>${u.last_app_build ? `${esc(u.last_app_version || '')} <span class="muted">(${esc(u.last_app_build)})</span>` : '<span class="muted">—</span>'}</td>
+        </tr>`).join('')}
+      </tbody></table></div><p class="muted" style="margin-top:8px">${rows.length === 100 ? 'Showing the first 100 — refine your search to narrow it down.' : `${rows.length} user${rows.length === 1 ? '' : 's'}`}</p>`
+    body.querySelectorAll('tr[data-id]').forEach((tr) => tr.onclick = () => userDetail(main, tr.dataset.id))
+  })
+  input.oninput = () => { clearTimeout(timer); timer = setTimeout(() => { userQuery = input.value.trim(); run() }, 300) }
+  input.focus()
+  run()
+}
+function userDetail(main, id) {
+  main.innerHTML = `<button class="back" id="u-back">← All users</button><div id="body"><div class="state">Loading…</div></div>`
+  $('#u-back').onclick = () => pages.users(main)
+  const body = $('#body')
+  const render = () => load(body, 'user_detail', { user_id: id }, (u) => {
+    const row = (k, v) => `<dt>${esc(k)}</dt><dd>${v}</dd>`
+    const suspended = !!u.suspended_at
+    body.innerHTML = `<h1>${esc(u.name || '(no name)')}</h1>
+      <p class="lead">${esc(u.email || '')}${u.headline ? ` · ${esc(u.headline)}` : ''}</p>
+      <div class="card"><dl class="dl">
+        ${row('Role', esc(u.role || '—') + (u.is_onboarded ? '' : ' <span class="pill amber">not onboarded</span>'))}
+        ${row('Signed up', fmtDate(u.created_at))}
+        ${row('Pro', u.is_pro ? '<span class="pill green">Pro</span>' : 'No')}
+        ${u.role === 'mentor' ? row('Founding badge', u.is_founding_mentor ? '<span class="pill violet">Founding mentor</span>' : 'No') : ''}
+        ${row('Status', suspended ? `<span class="pill red">Suspended</span> <span class="muted">${fmtDate(u.suspended_at)}${u.suspended_reason ? ' — ' + esc(u.suspended_reason) : ''}</span>` : u.is_active ? 'Active' : 'Inactive')}
+        ${row('Last active in the app', u.last_seen_at ? fmtDate(u.last_seen_at) : '—')}
+        ${row('Last sign-in', u.last_sign_in_at ? fmtDate(u.last_sign_in_at) : '—')}
+        ${row('App build', u.last_app_build ? `${esc(u.last_app_version || '')} (build ${esc(u.last_app_build)}) · ${esc(u.last_app_platform || '')}` : '— <span class="muted">(no stamp yet — builds before 1.1.8’s Oct 29 update don’t report it)</span>')}
+        ${u.industry ? row('Industry', esc(u.industry)) : ''}
+        ${u.role === 'mentor' ? row('Share link', u.share_enabled && u.share_slug ? `<a href="https://www.orlyo.app/m/${encodeURIComponent(u.share_slug)}/" target="_blank" rel="noopener">orlyo.app/m/${esc(u.share_slug)}</a>` : 'Off') : ''}
+        ${u.role === 'mentor' && u.session_rate ? row('Rate', '£' + esc(u.session_rate) + '/hr') : ''}
+        ${row('Mentorships', `${u.active_matches} active`)}
+        ${row('Sessions', `${u.sessions_completed} completed · ${u.sessions_upcoming} upcoming`)}
+        ${row('Reports', `${u.reports_against} against them${u.reports_open_against ? ` (<b>${u.reports_open_against} open</b>)` : ''} · ${u.reports_made} made`)}
+        ${u.invite_code ? row('Joined with invite', `<span class="code">${esc(u.invite_code)}</span>`) : ''}
+        ${row('User ID', `<span class="code" style="font-weight:400">${esc(u.id)}</span>`)}
+      </dl></div>
+      <div class="card"><div class="actions" id="u-actions">
+        ${suspended ? '<button class="btn btn-light" data-act="unsuspend">Unsuspend account</button>' : '<button class="btn btn-danger" data-act="suspend">Suspend account</button>'}
+        ${u.role === 'mentor' ? (u.is_founding_mentor ? '<button class="btn btn-light" data-act="revoke">Remove founding badge</button>' : '<button class="btn" data-act="grant">Grant founding badge</button>') : ''}
+      </div></div>`
+    const name = u.name || 'this account'
+    body.querySelectorAll('#u-actions [data-act]').forEach((b) => b.onclick = () => {
+      const act = b.dataset.act
+      if (act === 'suspend') return confirmInline(b, { text: `Suspend ${name}? Their profile is hidden and they can't sign in until you lift it.`, note: 'Reason (kept in the activity log)', button: 'Suspend', danger: true },
+        async (reason) => { await api('user_suspend', { user_id: id, reason }); toast('Account suspended'); render() })
+      if (act === 'unsuspend') return confirmInline(b, { text: `Lift the suspension on ${name}?`, button: 'Unsuspend' },
+        async () => { await api('user_unsuspend', { user_id: id }); toast('Suspension lifted'); render() })
+      const grant = act === 'grant'
+      confirmInline(b, { text: grant ? `Give ${name} the founding-mentor badge?` : `Remove ${name}'s founding-mentor badge?`, button: grant ? 'Grant' : 'Remove' },
+        async () => { await api('founding_set', { user_id: id, value: grant }); toast('Saved'); render() })
     })
   })
   render()
