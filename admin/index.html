@@ -299,7 +299,7 @@ pages.reports = (main) => {
 // ── Sessions to review ───────────────────────────────────────────────────────
 let reviewResolved = false
 pages.review = (main) => {
-  const el = frame(main, 'Sessions to review', 'Paid sessions the attendance check couldn\'t settle on its own (unclear call record, Daily outage, failed refund) or cancelled after payment. Check the attendance, issue any refund in the Stripe dashboard, then record the decision. Repeat mentor no-shows are flagged.')
+  const el = frame(main, 'Sessions to review', 'Paid sessions the attendance check couldn\'t settle on its own (unclear call record, Daily outage, failed refund) or cancelled after payment. Check the attendance, issue any refund in the Stripe dashboard, then record the decision. Repeat mentor no-shows and late cancellations are flagged.')
   const render = () => load(el, 'review_list', { resolved: reviewResolved }, (rows) => {
     if (!reviewResolved) badge('#n-review', rows.length, true)
     const filters = `<div class="filters"><button class="btn btn-light btn-small ${!reviewResolved ? 'on' : ''}" data-r="0">To review</button><button class="btn btn-light btn-small ${reviewResolved ? 'on' : ''}" data-r="1">Resolved</button></div>`
@@ -307,7 +307,7 @@ pages.review = (main) => {
       : `<div class="card table-wrap"><table><thead><tr><th>Session</th><th>Mentor</th><th>Mentee</th><th>Status</th><th>Attendance (Daily)</th><th>Paid</th><th>Stripe</th><th>${reviewResolved ? 'Decision' : ''}</th></tr></thead><tbody>
         ${rows.map((s) => `<tr data-id="${esc(s.id)}">
           <td><b>${fmtDate(s.scheduled_at)}</b><div class="muted">${esc(s.duration_minutes)} min</div></td>
-          <td>${esc(s.mentor?.name ?? '—')}<div>${noShowFlag(s.mentor_no_shows_90d || 0)}</div></td><td>${esc(s.mentee?.name ?? '—')}</td>
+          <td>${esc(s.mentor?.name ?? '—')}<div>${noShowFlag(s.mentor_no_shows_90d || 0, s.mentor_late_cancels_90d || 0)}</div></td><td>${esc(s.mentee?.name ?? '—')}</td>
           <td><span class="pill ${s.status === 'missed' ? 'red' : 'amber'}">${esc(s.status)}</span>${s.cancelled_at ? `<div class="muted">cancelled ${fmtDay(s.cancelled_at)}</div>` : ''}</td>
           <td>${attendanceCell(s)}</td>
           <td>${gbp(s.amount_pence)}<div class="muted">${esc(s.payment_status)}${s.refund_issued ? ` · refunded ${gbp(s.refund_amount_pence)}` : ''}</div></td>
@@ -411,9 +411,15 @@ pages.founding = (main) => {
   render()
 }
 
-// Repeat mentor no-shows (attendance-based): flag at 2+ in 90 days.
+// Repeat mentor reliability issues in 90 days — no-shows (from the call
+// record) plus cancellations within 48 h — flagged at 2+.
 const NO_SHOW_FLAG = 2
-const noShowFlag = (n) => n >= NO_SHOW_FLAG ? `<span class="pill red" title="Mentor no-shows in the last 90 days">⚠ ${n} no-shows (90d)</span>` : (n ? `<span class="muted">${n} no-show (90d)</span>` : '')
+const noShowFlag = (noShows = 0, late = 0) => {
+  const n = noShows + late
+  if (!n) return ''
+  const parts = [noShows ? `${noShows} no-show${noShows === 1 ? '' : 's'}` : '', late ? `${late} late cancel${late === 1 ? '' : 's'}` : ''].filter(Boolean).join(', ')
+  return n >= NO_SHOW_FLAG ? `<span class="pill red" title="Mentor reliability issues in the last 90 days">⚠ ${parts} (90d)</span>` : `<span class="muted">${parts} (90d)</span>`
+}
 const OUTCOME = { both: ['Both joined', 'green'], mentee_no_show: ['Mentee no-show', 'amber'], mentor_no_show: ['Mentor no-show', 'red'], neither: ['Neither joined', ''], unknown: ['Unclear — check', 'amber'], legacy: ['Before attendance checks', ''] }
 const mins = (sec) => sec == null ? '—' : `${Math.round(sec / 60)} min`
 function attendanceCell(s) {
@@ -450,7 +456,7 @@ pages.users = (main) => {
           <td class="muted">${fmtDay(u.created_at)}</td>
           <td>${u.is_pro ? '<span class="pill green">Pro</span>' : '<span class="muted">—</span>'}</td>
           <td>${u.is_founding_mentor ? '<span class="pill violet">Founding</span>' : '<span class="muted">—</span>'}</td>
-          <td>${u.suspended_at ? '<span class="pill red">Suspended</span>' : u.is_active ? '<span class="muted">Active</span>' : '<span class="pill">Inactive</span>'}${u.role === 'mentor' && u.mentor_no_shows_90d ? `<div>${noShowFlag(u.mentor_no_shows_90d)}</div>` : ''}</td>
+          <td>${u.suspended_at ? '<span class="pill red">Suspended</span>' : u.is_active ? '<span class="muted">Active</span>' : '<span class="pill">Inactive</span>'}${u.role === 'mentor' && (u.mentor_no_shows_90d || u.mentor_late_cancels_90d) ? `<div>${noShowFlag(u.mentor_no_shows_90d || 0, u.mentor_late_cancels_90d || 0)}</div>` : ''}</td>
           <td class="muted">${lastActive(u)}</td>
           <td>${u.last_app_build ? `${esc(u.last_app_version || '')} <span class="muted">(${esc(u.last_app_build)})</span>` : '<span class="muted">—</span>'}</td>
         </tr>`).join('')}
@@ -485,7 +491,7 @@ function userDetail(main, id) {
         ${row('Mentorships', `${u.active_matches} active`)}
         ${row('Sessions', `${u.sessions_completed} completed · ${u.sessions_upcoming} upcoming`)}
         ${row('Reports', `${u.reports_against} against them${u.reports_open_against ? ` (<b>${u.reports_open_against} open</b>)` : ''} · ${u.reports_made} made`)}
-        ${u.role === 'mentor' ? row('Mentor no-shows', `${u.mentor_no_shows_total} total · ${u.mentor_no_shows_90d} in 90 days ${noShowFlag(u.mentor_no_shows_90d)}`) : row('Missed sessions (no-show)', `${u.mentee_no_shows_total}`)}
+        ${u.role === 'mentor' ? row('Reliability', `No-shows: ${u.mentor_no_shows_total} total · ${u.mentor_no_shows_90d} in 90 days<br>Cancelled within 48 h: ${u.mentor_late_cancels_total} total · ${u.mentor_late_cancels_90d} in 90 days<br>${noShowFlag(u.mentor_no_shows_90d, u.mentor_late_cancels_90d)}`) : row('Missed sessions (no-show)', `${u.mentee_no_shows_total}`)}
         ${u.invite_code ? row('Joined with invite', `<span class="code">${esc(u.invite_code)}</span>`) : ''}
         ${row('User ID', `<span class="code" style="font-weight:400">${esc(u.id)}</span>`)}
       </dl></div>
