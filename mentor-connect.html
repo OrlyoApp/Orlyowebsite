@@ -17,10 +17,27 @@
 </head>
 <body>
   <div class="card">
-    <div class="icon">✓</div>
-    <h1>Payouts enabled!</h1>
-    <p>Your Stripe account is connected. You can now accept paid session bookings through Orlyo. Return to the app to continue.</p>
-    <a href="orlyo://mentor-connect?status=complete" class="btn">Return to Orlyo</a>
+    <div class="icon" id="icon">✓</div>
+    <h1 id="title">Back to Orlyo</h1>
+    <p id="body">Taking you back to the app, where you'll see your payout status.</p>
+    <a id="back" href="orlyo://mentor-connect?status=complete" class="btn">Return to Orlyo</a>
   </div>
+  <script>
+    // Stripe sends mentors here when they leave onboarding (?status=complete) or
+    // when the setup link has expired (?status=refresh). Either way the app
+    // checks the real status with Stripe; this page just hands back to it.
+    // Opened from the app, the redirect closes the in-app browser.
+    (function () {
+      var status = new URLSearchParams(location.search).get('status') === 'refresh' ? 'refresh' : 'complete';
+      var target = 'orlyo://mentor-connect?status=' + status;
+      if (status === 'refresh') {
+        document.getElementById('icon').textContent = '↻';
+        document.getElementById('title').textContent = 'Link expired';
+        document.getElementById('body').textContent = 'That setup link has expired. Return to the app and tap Set up again to carry on where you left off.';
+      }
+      document.getElementById('back').setAttribute('href', target);
+      setTimeout(function () { location.href = target; }, 300);
+    })();
+  </script>
 </body>
 </html>
