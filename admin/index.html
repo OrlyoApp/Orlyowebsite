@@ -103,6 +103,7 @@
     <button data-page="users">Users</button>
     <button data-page="reports">Reports <span class="count hidden" id="n-reports"></span></button>
     <button data-page="review">Sessions to review <span class="count hidden" id="n-review"></span></button>
+    <button data-page="completed">Completed sessions</button>
     <button data-page="waitlist">Mentor waitlist <span class="count hidden" id="n-waitlist"></span></button>
     <button data-page="invites">Invite codes</button>
     <button data-page="founding">Founding badges</button>
@@ -325,6 +326,30 @@ pages.review = (main) => {
   render()
 }
 
+// ── Completed sessions ───────────────────────────────────────────────────────
+function transferCell(s) {
+  if (s.payment_status === 'free' || !s.amount_pence) return '<span class="muted">Free session</span>'
+  if (s.stripe_flow !== 'platform') return '<span class="muted">Paid at booking (older flow)</span>'
+  if (s.transferred_at) return `<span class="pill green">Paid to mentor</span><div class="muted">${gbp(s.mentor_payout_pence)} · ${fmtDay(s.transferred_at)}${s.transfer_id ? ` · <a href="https://dashboard.stripe.com/connect/transfers/${encodeURIComponent(s.transfer_id)}" target="_blank" rel="noopener">transfer</a>` : ''}</div>`
+  if (s.transfer_error) return `<span class="pill red">Transfer failed</span><div class="muted">${esc(s.transfer_error)}${s.transfer_attempts ? ` · ${esc(s.transfer_attempts)} attempt${s.transfer_attempts === 1 ? '' : 's'}` : ''}</div>`
+  return `<span class="pill amber">Transfer pending</span><div class="muted">${gbp(s.mentor_payout_pence)} due</div>`
+}
+pages.completed = (main) => {
+  const el = frame(main, 'Completed sessions', 'The latest 100 sessions that settled as completed, with the attendance record and whether the mentor has been paid.')
+  load(el, 'completed_list', {}, (rows) => {
+    el.innerHTML = rows.length === 0 ? '<div class="card state">No completed sessions yet.</div>'
+      : `<div class="card table-wrap"><table><thead><tr><th>Session</th><th>Mentor</th><th>Mentee</th><th>Amount</th><th>Attendance (Daily)</th><th>Mentor payout</th></tr></thead><tbody>
+        ${rows.map((s) => `<tr>
+          <td><b>${fmtDate(s.scheduled_at)}</b><div class="muted">${esc(s.duration_minutes)} min</div></td>
+          <td>${esc(s.mentor?.name ?? '—')}</td><td>${esc(s.mentee?.name ?? '—')}</td>
+          <td>${s.amount_pence ? gbp(s.amount_pence) : 'Free'}${s.platform_fee_pence ? `<div class="muted">fee ${gbp(s.platform_fee_pence)}</div>` : ''}</td>
+          <td>${attendanceCell(s)}</td>
+          <td>${transferCell(s)}</td>
+        </tr>`).join('')}
+      </tbody></table></div>`
+  })
+}
+
 // ── Mentor waitlist ──────────────────────────────────────────────────────────
 pages.waitlist = (main) => {
   const el = frame(main, 'Mentor waitlist', 'People who registered interest in mentoring. Send the ones you want an invite code.')
@@ -426,7 +451,7 @@ function attendanceCell(s) {
   if (!s.attendance_outcome) return '<span class="muted">Not checked yet</span>'
   const [label, cls] = OUTCOME[s.attendance_outcome] || [s.attendance_outcome, '']
   const a = s.attendance || {}
-  const detail = a.reason ? esc(a.reason) : `mentor ${mins(a.mentor_seconds)} · mentee ${mins(a.mentee_seconds)} · together ${mins(a.together_seconds)}`
+  const detail = a.reason ? esc(a.reason) : `mentor ${mins(a.mentor_seconds)} · mentee ${mins(a.mentee_seconds)} · together ${mins(a.together_seconds)}${a.mentor_late ? ' · mentor joined 15+ min late' : ''}`
   return `<span class="pill ${cls}">${esc(label)}</span><div class="muted">${detail}${a.refund_error ? ` · refund failed: ${esc(a.refund_error)}` : ''}</div>`
 }
 
