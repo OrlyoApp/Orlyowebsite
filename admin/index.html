@@ -48,6 +48,8 @@
   .tile b { display: block; font-size: 26px; margin-top: 4px; }
   .tile span { color: var(--grey); font-size: 13px; }
   .tile.flag b { color: var(--danger); }
+  .banner { border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; background: #FDF3E1; color: var(--amber); }
+  .banner.red { background: #FDECEA; color: var(--danger); }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; }
   th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--grey); padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -244,7 +246,16 @@ pages.overview = (main) => {
   load(el, 'overview', {}, (d) => {
     badge('#n-reports', d.openReports, true); badge('#n-review', d.needsReview, true); badge('#n-waitlist', d.waitlist)
     const t = (label, value, flag) => `<div class="tile ${flag ? 'flag' : ''}"><span>${esc(label)}</span><b>${esc(value)}</b></div>`
-    el.innerHTML = `<div class="tiles">
+    // AI pauses for everyone once today's spend reaches the budget (UTC days).
+    const usd = (n) => '$' + Number(n).toFixed(2)
+    const aiPct = d.aiDailyBudgetUsd > 0 ? Math.round(100 * d.aiSpendTodayUsd / d.aiDailyBudgetUsd) : 0
+    const aiBanner = aiPct >= 100
+      ? `<div class="banner red"><b>AI is paused for today.</b> Spend has reached the ${esc(usd(d.aiDailyBudgetUsd))} daily budget; it resumes at midnight UTC.</div>`
+      : aiPct >= 80
+        ? `<div class="banner"><b>AI budget at ${aiPct}%.</b> ${esc(usd(d.aiSpendTodayUsd))} of ${esc(usd(d.aiDailyBudgetUsd))} spent today; AI features pause at 100% until midnight UTC.</div>`
+        : ''
+    el.innerHTML = `${aiBanner}<div class="tiles">
+      ${t('AI spend today', `${usd(d.aiSpendTodayUsd)} of ${usd(d.aiDailyBudgetUsd)}`, aiPct >= 80)}
       ${t('Open reports', d.openReports, d.openReports > 0)}
       ${t('Paid sessions to review', d.needsReview, d.needsReview > 0)}
       ${t('Mentor waitlist', d.waitlist)}
