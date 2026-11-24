@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Confirm your email · Orlyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/m/mentor.css">
+<link rel="stylesheet" href="/auth/auth.css">
+</head>
+<body>
+<header class="top"><a class="wordmark" href="/">orlyo</a></header>
+<main id="mentor">
+  <article class="card auth-card" id="card">
+    <h1>Confirm your email</h1>
+    <p class="bio">One tap and you're in.</p>
+    <button class="btn btn-primary" id="go">Confirm my email</button>
+    <div class="err" id="err"></div>
+  </article>
+</main>
+<footer><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/support.html">Support</a></footer>
+<script type="module">
+  // Links in Orlyo's confirmation emails land here (Supabase email templates:
+  // ?token_hash=…&type=signup|email_change). Nothing is verified until the
+  // button is tapped, so mail scanners that open links don't use them up.
+  import { SUPABASE_URL, SUPABASE_ANON_KEY } from '/m/config.mjs'
+  const q = new URLSearchParams(location.search)
+  const tokenHash = q.get('token_hash')
+  const type = ['signup', 'email', 'email_change', 'invite'].includes(q.get('type')) ? q.get('type') : 'signup'
+  const card = document.getElementById('card')
+  const done = (title, text) => {
+    card.innerHTML = `<h1></h1><p class="bio"></p><a class="btn btn-primary" href="orlyo://">Open Orlyo</a>
+      <p class="hint">Opening this on a computer? Just open Orlyo on your phone and sign in.</p>`
+    card.querySelector('h1').textContent = title
+    card.querySelector('.bio').textContent = text
+  }
+  if (!tokenHash) done('Link incomplete', 'This link is missing its code. Open the latest email from Orlyo and tap the button again.')
+  document.getElementById('go')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget
+    btn.disabled = true
+    btn.textContent = 'Confirming…'
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+        method: 'POST',
+        headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, token_hash: tokenHash }),
+      })
+      if (res.ok) {
+        type === 'email_change'
+          ? done('Email updated', 'Your new email address is confirmed.')
+          : done('Email confirmed', "You're all set. Open Orlyo and sign in to set up your profile.")
+        return
+      }
+      done('This link has expired', "It may have been used already. Open Orlyo and sign in — if your email still isn't confirmed, tap “resend it” to get a fresh link.")
+    } catch {
+      btn.disabled = false
+      btn.textContent = 'Confirm my email'
+      document.getElementById('err').textContent = "Couldn't reach Orlyo. Check your connection and try again."
+    }
+  })
+</script>
+</body>
+</html>

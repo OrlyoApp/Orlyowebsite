@@ -1,0 +1,10 @@
+/* Email confirm + password reset pages (security sweep 2026-11-24). Builds on /m/mentor.css. */
+.auth-card { text-align: center; display: grid; gap: 14px; justify-items: center; }
+.auth-card h1 { margin: 0; font-size: 24px; color: #1B2833; }
+.auth-card p { margin: 0; }
+.auth-card .btn { width: 100%; max-width: 320px; border: 0; font: inherit; font-weight: 500; cursor: pointer; }
+.auth-card .btn[disabled] { opacity: 0.6; cursor: default; }
+.auth-card form { display: grid; gap: 10px; width: 100%; max-width: 320px; }
+.auth-card input { box-sizing: border-box; width: 100%; padding: 14px 16px; border: 1.5px solid #DDE3DF; border-radius: 12px; font: inherit; font-size: 16px; }
+.auth-card .err { color: #C0392B; font-size: 14px; min-height: 20px; }
+.auth-card .hint { color: #5E6B66; font-size: 13px; }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Reset your password · Orlyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/m/mentor.css">
+<link rel="stylesheet" href="/auth/auth.css">
+</head>
+<body>
+<header class="top"><a class="wordmark" href="/">orlyo</a></header>
+<main id="mentor">
+  <article class="card auth-card" id="card">
+    <h1>Choose a new password</h1>
+    <form id="form" novalidate>
+      <input type="password" id="pw" placeholder="New password (10+ characters)" autocomplete="new-password" required>
+      <input type="password" id="pw2" placeholder="Type it again" autocomplete="new-password" required>
+      <div class="err" id="err"></div>
+      <button class="btn btn-primary" id="go" type="submit">Save password</button>
+    </form>
+  </article>
+</main>
+<footer><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/support.html">Support</a></footer>
+<script type="module">
+  // Links in Orlyo's password-reset emails land here (?token_hash=…&type=recovery).
+  // The code is exchanged only on submit (mail scanners can't use it up), and
+  // the session it returns is kept in memory so a refused password can be retried.
+  import { SUPABASE_URL, SUPABASE_ANON_KEY } from '/m/config.mjs'
+  const tokenHash = new URLSearchParams(location.search).get('token_hash')
+  const card = document.getElementById('card')
+  const err = document.getElementById('err')
+  const btn = document.getElementById('go')
+  let accessToken = null
+  const done = (title, text) => {
+    card.innerHTML = `<h1></h1><p class="bio"></p><a class="btn btn-primary" href="orlyo://">Open Orlyo</a>`
+    card.querySelector('h1').textContent = title
+    card.querySelector('.bio').textContent = text
+  }
+  if (!tokenHash) done('Link incomplete', 'This link is missing its code. In Orlyo, tap “Forgot password?” to get a new one.')
+  document.getElementById('form')?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const pw = document.getElementById('pw').value
+    if (pw.length < 10) { err.textContent = 'Use at least 10 characters.'; return }
+    if (pw !== document.getElementById('pw2').value) { err.textContent = "The two passwords don't match."; return }
+    err.textContent = ''
+    btn.disabled = true
+    btn.textContent = 'Saving…'
+    try {
+      if (!accessToken) {
+        const v = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+          method: 'POST',
+          headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'recovery', token_hash: tokenHash }),
+        })
+        const vb = await v.json().catch(() => ({}))
+        if (!v.ok || !vb.access_token) {
+          done('This link has expired', 'It may have been used already. In Orlyo, tap “Forgot password?” to get a new one.')
+          return
+        }
+        accessToken = vb.access_token
+      }
+      const u = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        method: 'PUT',
+        headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      })
+      const ub = await u.json().catch(() => ({}))
+      if (u.ok) { done('Password updated', 'Open Orlyo and sign in with your new password.'); return }
+      err.textContent = ub.error_code === 'same_password' ? 'That is your current password — choose a different one.'
+        : ub.error_code === 'weak_password' ? 'That password is too weak. Use at least 10 characters.'
+        : "Couldn't save that password. Please try again."
+    } catch {
+      err.textContent = "Couldn't reach Orlyo. Check your connection and try again."
+    } finally {
+      if (btn.isConnected) { btn.disabled = false; btn.textContent = 'Save password' }
+    }
+  })
+</script>
+</body>
+</html>
